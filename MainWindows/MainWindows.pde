@@ -1,6 +1,7 @@
 // ******************************** VARIABLES ******************************** //
 
 //// PREMIERE fenetre
+import megamu.shapetween.*;
 
 PImage imageImportee;
 PImage imageContour;
@@ -21,6 +22,12 @@ boolean tableConverted = false;
 int x;
 int y;
 int i=0; // variable globale servant à definir le nombre de sommets progressivement
+
+// variables pour l'animation d'explosion
+Tween ani;
+BezierShaper mon_bezier;
+
+
 
 
 
@@ -48,7 +55,7 @@ int choixTransformation; // 0 = pas encore assigné 1 = delaunay, 2 = polaires
 
 int ETAT =1;
 
-// ******************************** VARIABLES POUR L'EXCTRACTION DES CONTOURS ******************************* //
+// ******************************** VARIABLES POUR L'EXTRACTION DES CONTOURS ******************************* //
 //declaration des classes
 class unPoint{
   int x;
@@ -112,11 +119,18 @@ void setup(){
   textFont(font);
   
   PFrame f = new PFrame();
+  
  // Pour mettre eventuellement notre fenêtre en mode undecorated
- 
  // f.dispose();
   //f.setUndecorated(true);
   //f.setVisible(true);
+  
+  // On définit les paramètres de notre animation
+  
+  ani = new Tween(this, 10);
+  mon_bezier = new BezierShaper(Tween.IN); 
+  mon_bezier.setInHandle(0,1); // pour avoir des paramètres compris entre 0 et 1 ici on fait une courbe bésier "parfaite"
+  ani.setEasing( mon_bezier );
 
 }
 
@@ -133,6 +147,8 @@ void draw() { //draw() est appellée à chaque frame
    s.fill(100);
    s.redraw();// On raffraichit notre seconde fenetre à chaque frame
   
+  
+    
 
   switch (ETAT){
     
@@ -269,14 +285,18 @@ void draw() { //draw() est appellée à chaque frame
     break;   
     
     case 7:
-    //Choix explosion
-
-    ETAT = 701;
+    // On dessine les triangles avec la texture d'arrière plan
+    dessineTriangles();
+    ETAT = 702;
     break;   
     
-    case 702:
-    dessineTriangles();
-    //On explose tout ça de manière dynamique
+    case 702:  //On explose tout ça de manière dynamique
+    
+    println("hello");
+    
+    eclatementTriangles();
+    
+
     break;
     
     case 701:
