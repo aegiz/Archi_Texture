@@ -292,8 +292,6 @@ void draw() { //draw() est appellée à chaque frame
     
     case 702:  //On explose tout ça de manière dynamique
     
-    println("hello");
-    
     eclatementTriangles();
     
 
