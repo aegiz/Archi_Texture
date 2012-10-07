@@ -31,8 +31,18 @@ void eclatementTriangles(){
   
   
     //On détermine la trajectoire du triangles
-    int vectX = floor((TableauCoodonneesExtraites[t][0][0] - xCen)*2);
-    int vectY = floor((TableauCoodonneesExtraites[t][0][1] - yCen)*2);    
+    
+      //On fait la moyenne des coordonnées des trois points :
+      int moyX = floor((TableauCoodonneesExtraites[t][0][0] + TableauCoodonneesExtraites[t][1][0] + TableauCoodonneesExtraites[t][2][0])/3);
+      int moyY = floor((TableauCoodonneesExtraites[t][0][1] + TableauCoodonneesExtraites[t][1][1] + TableauCoodonneesExtraites[t][2][1])/3); 
+      
+      //On calcul le vecteur à partir du centre de l'image
+      int vectX = floor((moyX - xCen)*2);
+      int vectY = floor((moyY - yCen)*2);
+  
+      //On applique un coef au vecteur qui change au cours du temp
+      vectX=floor(vectX*indiceExplosion);
+      vectY=floor(indiceExplosion*vectY);      
     
     beginShape(); // on trace une shape avec 3 sommets donc un triangle
     texture(imageImportee);

@@ -101,6 +101,13 @@ float [] [] points = new float [350][350];
 float [] [] tableauSommetCoordonnees = new float [2][350]; // On considère que le nombre de sommets max est 350
 
 Delaunay myDelaunay;
+
+
+// ******************************** PARAMETRES POUR L'EXPLOSION ******************************** //
+
+
+float indiceExplosion = 0;
+float vitesseExplosion = 0.05;
 // ******************************** PARAMETRES DE LA FENETRE PRINCIPALE ******************************** //
 
 void setup(){
@@ -288,10 +295,11 @@ void draw() { //draw() est appellée à chaque frame
     // On dessine les triangles avec la texture d'arrière plan
     dessineTriangles();
     ETAT = 702;
+
     break;   
     
     case 702:  //On explose tout ça de manière dynamique
-    
+    indiceExplosion+=vitesseExplosion;
     eclatementTriangles();
     
 
