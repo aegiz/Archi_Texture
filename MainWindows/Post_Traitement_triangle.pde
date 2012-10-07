@@ -39,10 +39,15 @@ void eclatementTriangles(){
       //On calcul le vecteur à partir du centre de l'image
       int vectX = floor((moyX - xCen)*2);
       int vectY = floor((moyY - yCen)*2);
-  
-      //On applique un coef au vecteur qui change au cours du temp
-      vectX=floor(vectX*indiceExplosion);
-      vectY=floor(indiceExplosion*vectY);      
+      
+      //On normalise le vecteur pour qu'il n'y ait pas de différence entre images (on les rajoutera après ;) ).
+      
+      vectX = floor(vectX / (sqrt(vectX*vectX + vectY*vectY)));
+      vectY = floor(vectY / (sqrt(vectX*vectX + vectY*vectY))); 
+      
+      //On applique un coef au vecteur qui change au cours du temp pour la vitesse de déplacement.
+      vectX=floor(vectX*vitesseExplosion*indiceExplosion);
+      vectY=floor(vectY*vitesseExplosion*indiceExplosion)+ floor(pesanteur*indiceExplosion*indiceExplosion);      
     
     beginShape(); // on trace une shape avec 3 sommets donc un triangle
     texture(imageImportee);

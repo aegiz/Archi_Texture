@@ -73,7 +73,7 @@ boolean   delaunayNotSetted = true;
 
 //On cree la liste de point
 //List listePointCercle = new LinkedList();
-int nombrePoint =10;
+int nombrePoint =60;
 float tableauDePoint[][] = new float[nombrePoint][3];
 int seuil = 20;
 
@@ -107,7 +107,8 @@ Delaunay myDelaunay;
 
 
 float indiceExplosion = 0;
-float vitesseExplosion = 0.05;
+float vitesseExplosion = 2;
+float pesanteur = 0.02;
 // ******************************** PARAMETRES DE LA FENETRE PRINCIPALE ******************************** //
 
 void setup(){
@@ -299,7 +300,7 @@ void draw() { //draw() est appellée à chaque frame
     break;   
     
     case 702:  //On explose tout ça de manière dynamique
-    indiceExplosion+=vitesseExplosion;
+    indiceExplosion++;
     eclatementTriangles();
     
 
