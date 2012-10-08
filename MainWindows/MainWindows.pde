@@ -304,10 +304,12 @@ void draw() { //draw() est appellée à chaque frame
     break;   
     
     case 702:  //On explose tout ça de manière dynamique
+
     indiceExplosion++;
     eclatementTriangles();
-    
-
+    if(indiceExplosion>100){
+      ETAT = 8;
+    }
     break;
     
     case 701:
