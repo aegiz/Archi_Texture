@@ -30,10 +30,26 @@ void preparationExplosion(){
     int vectX = floor((moyX - xCen));
     int vectY = floor((moyY - yCen));     
 
-
-    //On normalise le vecteur pour qu'il n'y ait pas de différence entre images (on les rajoutera après ;) ). 
-    donneesExplosion[t][0] = floor((vectX / (sqrt(float(vectX*vectX + vectY*vectY))))* vitesseExplosion);
-    donneesExplosion[t][1] = floor((vectY / (sqrt(float(vectX*vectX + vectY*vectY))))* vitesseExplosion);
+    //On normalise le vecteur pour qu'il n'y ait pas de différence entre images (on les rajoutera après ;) ).
+    vectX = floor((vectX / (sqrt(float(vectX*vectX + vectY*vectY))))* vitesseExplosion);
+    vectY = floor((vectY / (sqrt(float(vectX*vectX + vectY*vectY))))* vitesseExplosion);
+    
+    //On ajoute une valeur aléatoire sur chaque diréction.
+    vectX+=random(-aleatoire,aleatoire);
+    vectY+=random(-aleatoire,aleatoire);
+    
+    //On renormalise le vecteur pour qu'il n'y ait pas de différence entre images (on les rajoutera après ;) ).
+    vectX = floor((vectX / (sqrt(float(vectX*vectX + vectY*vectY))))* vitesseExplosion);
+    vectY = floor((vectY / (sqrt(float(vectX*vectX + vectY*vectY))))* vitesseExplosion);
+    
+    //On ajoute une valeur aléatoire sur la vitesse du vecteur.
+    float randomise = random(0.5, 3);
+    vectX*=randomise;
+    vectY*=randomise;    
+    
+    
+    donneesExplosion[t][0] = vectX;
+    donneesExplosion[t][1] = vectY;
   }  
   
 }

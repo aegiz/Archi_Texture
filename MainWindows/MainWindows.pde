@@ -109,6 +109,7 @@ Delaunay myDelaunay;
 float indiceExplosion = 0;
 float vitesseExplosion = 2;
 float pesanteur = 0.02;
+float aleatoire = 0.2;
 
 int [][] donneesExplosion;
 // ******************************** PARAMETRES DE LA FENETRE PRINCIPALE ******************************** //
