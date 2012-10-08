@@ -109,6 +109,8 @@ Delaunay myDelaunay;
 float indiceExplosion = 0;
 float vitesseExplosion = 2;
 float pesanteur = 0.02;
+
+int [][] donneesExplosion;
 // ******************************** PARAMETRES DE LA FENETRE PRINCIPALE ******************************** //
 
 void setup(){
@@ -295,6 +297,7 @@ void draw() { //draw() est appellée à chaque frame
     case 7:
     // On dessine les triangles avec la texture d'arrière plan
     dessineTriangles();
+    preparationExplosion();
     ETAT = 702;
 
     break;   
