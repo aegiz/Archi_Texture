@@ -109,6 +109,7 @@ Delaunay myDelaunay;
 float indiceExplosion = 0;
 float vitesseExplosion = 2;
 float pesanteur = 0.02;
+float aleatoire = 0.2;
 
 int [][] donneesExplosion;
 // ******************************** PARAMETRES DE LA FENETRE PRINCIPALE ******************************** //
@@ -134,14 +135,6 @@ void setup(){
  // f.dispose();
   //f.setUndecorated(true);
   //f.setVisible(true);
-  
-  // On définit les paramètres de notre animation
-  
-  ani = new Tween(this, 10);
-  mon_bezier = new BezierShaper(Tween.IN); 
-  mon_bezier.setInHandle(0,1); // pour avoir des paramètres compris entre 0 et 1 ici on fait une courbe bésier "parfaite"
-  ani.setEasing( mon_bezier );
-
 }
 
 
@@ -303,10 +296,12 @@ void draw() { //draw() est appellée à chaque frame
     break;   
     
     case 702:  //On explose tout ça de manière dynamique
+    dessineTriangles();
     indiceExplosion++;
     eclatementTriangles();
-    
-
+    if(indiceExplosion>100){
+      ETAT = 8;
+    }
     break;
     
     case 701:
