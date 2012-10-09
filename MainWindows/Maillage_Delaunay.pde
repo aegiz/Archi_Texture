@@ -4,7 +4,6 @@ void recupereCoordonnees(){
     for(int k=0; k<nombrePoint; k++){
       pointsATracer[k][0] = floor(cos(tableauDePoint[ k ][2])*tableauDePoint[ k ][0] + xCen); 
       pointsATracer[k][1] = floor(sin(tableauDePoint[ k ][2])*tableauDePoint[ k ][0] + yCen);    // copie les "points" dans un nouveau tableau "pointAtracer"
-      print(" k = " + k + "\n");
       
       //On ajoute des points à l'intérieur de la forme qui sont entre un point k et le centre de la forme.
       pointsATracer[k+nombrePoint][0] = floor(xCen + random(0.05,0.8)*( (pointsATracer[k][0] - xCen)));

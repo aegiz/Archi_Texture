@@ -44,7 +44,7 @@ int positionEllX2, positionEllY2;
 
 int rectSizeX;
 int rectSizeY;
-int positionRectX, positionRectY;
+int positionRectX,positionRectX1,positionRectX2, positionRectY;
 
 int positionSourisX, positionSourisY;
 
@@ -74,6 +74,7 @@ boolean   delaunayNotSetted = true;
 //On cree la liste de point
 //List listePointCercle = new LinkedList();
 int nombrePoint =60;
+int nombrePointBase =60;
 float tableauDePoint[][] = new float[nombrePoint][3];
 int seuil = 20;
 
@@ -143,7 +144,7 @@ void setup(){
 
 
 void draw() { //draw() est appellée à chaque frame
-    print("\n \n Etat : " + ETAT);
+
    // print(" Nous somme dans l'état : " + ETAT+ "\n");
 
    s.background(255, 255, 255); // On met un fond blanc dans l'autre fenêtre en permanence ce qui permet d'avoir un texte propre
@@ -268,23 +269,28 @@ void draw() { //draw() est appellée à chaque frame
     break;        
 
     case 3:
-    //On ajoute des points aléatoirements
+    //On demande si l'utilisateur veut ajouter d'autre contour
+    dessineTriangles();
     break;
     
-    case 4:
+    case 4: 
+    mouseHasBeenReleased = false;
+    print("Case 4 \n");
     recupereCoordonnees();
     ETAT = 5;
     break;
     
     case 5:
+    print("Case 5 \n");
     methodeDelaunay();
     ETAT = 6;
     break;
     
     case 6:
+    print("Case 6 \n");
     //Exctraction des triangles
     ExtractionTriangle(myDelaunay);
-    ETAT = 7;   
+    ETAT = 3;   
     break;   
     
     case 7:
@@ -295,7 +301,8 @@ void draw() { //draw() est appellée à chaque frame
 
     break;   
     
-    case 702:  //On explose tout ça de manière dynamique
+    case 702:  
+    //On explose tout ça de manière dynamique
     dessineTriangles();
     indiceExplosion++;
     eclatementTriangles();

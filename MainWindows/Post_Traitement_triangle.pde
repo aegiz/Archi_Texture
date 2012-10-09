@@ -1,5 +1,5 @@
 void dessineTriangles(){
-  println("\n Hello");
+
   for(int t=nombreTriangles-1; t!=-1; t--){ //Pour chaque triangle on lui donne la texture qui est dessous
      
     beginShape(); // on trace une shape avec 3 sommets donc un triangle
@@ -14,7 +14,7 @@ void dessineTriangles(){
 }
 
 void preparationExplosion(){
-  
+  print("\n \n" + nombreTriangles);
   //Initialisation du tableau qui contiendra toute les infos sur les jets.
   donneesExplosion =  new int [nombreTriangles][3];
   
@@ -75,7 +75,11 @@ void eclatementTriangles(){
     //On applique un coef au vecteur qui change au cours du temp pour la vitesse de déplacement.
     int vectX = floor(donneesExplosion[t][0]  * indiceExplosion);
     int vectY = floor(donneesExplosion[t][1]  * indiceExplosion) + floor(pesanteur * indiceExplosion * indiceExplosion);      
-    
+//    if(boolean(donneesExplosion[t][2])){
+//      translate(0,0);
+//      rotate((indiceExplosion%10)*(PI/10));
+//      translate(TableauCoodonneesExtraites[t][0][0]+ vectX,TableauCoodonneesExtraites[t][0][1]+ vectY); 
+//    }       
 
     beginShape(); // on trace une shape avec 3 sommets donc un triangle
     texture(imageImportee);
@@ -83,11 +87,7 @@ void eclatementTriangles(){
     vertex(TableauCoodonneesExtraites[t][1][0]+ vectX, TableauCoodonneesExtraites[t][1][1]+ vectY, TableauCoodonneesExtraites[t][1][0], TableauCoodonneesExtraites[t][1][1] );
     vertex(TableauCoodonneesExtraites[t][2][0]+ vectX, TableauCoodonneesExtraites[t][2][1]+ vectY, TableauCoodonneesExtraites[t][2][0], TableauCoodonneesExtraites[t][2][1] );
     endShape();
-    if(boolean(donneesExplosion[t][2])){
-      translate(0,0);
-      rotate((indiceExplosion%10)*(PI/10));
-      translate(TableauCoodonneesExtraites[t][0][0]+ vectX,TableauCoodonneesExtraites[t][0][1]+ vectY); 
-    }     
+  
  
   }
 }

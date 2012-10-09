@@ -66,9 +66,9 @@ public class secondApplet extends PApplet {
             break;
             
             case 2:
-            //On donne le choix à l'utilisateur du type de transformation:
             
-            
+              //On donne le choix à l'utilisateur du type de transformation:
+              
               positionEllX= 50;
               positionEllY= 50;
               positionSourisX = mouseX;
@@ -86,18 +86,17 @@ public class secondApplet extends PApplet {
               positionEllY2 = positionEllY+23;
               
               ellipse(positionEllX2,positionEllY2, 14, 14);
+
+               if(choixTransformation == 1){
+                 fill( 0, 121, 184 );
+                 ellipse(positionEllX, positionEllY, 6, 6);   
+               }
+               
+               if(choixTransformation == 2){
+                 fill( 0, 121, 184 );
+                 ellipse(positionEllX2, positionEllY2, 6, 6);
               
-             
-             if(choixTransformation == 1){
-               fill( 0, 121, 184 );
-               ellipse(positionEllX, positionEllY, 6, 6);   
-             }
-             
-             if(choixTransformation == 2){
-               fill( 0, 121, 184 );
-               ellipse(positionEllX2, positionEllY2, 6, 6);
-  
-             }
+               }
             
             break;
             
@@ -113,6 +112,58 @@ public class secondApplet extends PApplet {
               text("Vous pouvez maintenant tracer un contour autour de la forme que vous voulez éclater", 30, 30);
     
             break;
+
+            case 3:
+              fill(0);
+              text("Voulez vous ajouter d'autre contour ?", 30, 30);
+              positionRectX1 = 50;
+              positionRectX2 = 250;              
+              positionRectY = 50;
+               
+              rectSizeX = 120;
+              rectSizeY = 30;
+              
+               // On repère à chaque frame la potition de la souris pour savoir si on est dans la zone d'upload ou pas
+              positionSourisX = mouseX;
+              positionSourisY = mouseY;
+              
+              if ( positionSourisX >= positionRectX1 && positionSourisX <= positionRectX1+rectSizeX && positionSourisY >= positionRectY && positionSourisY <= positionRectY+rectSizeY) {
+                ETAT = 7;
+              }
+              if ( positionSourisX >= positionRectX2 && positionSourisX <= positionRectX2+rectSizeX && positionSourisY >= positionRectY && positionSourisY <= positionRectY+rectSizeY) {
+
+                tableauDePoint = new float[nombrePoint][3];                
+                tabInit();
+                typeSelection = 0;
+                nombrePoint = nombrePointBase;
+                ETAT = 2;                
+
+              }              
+              
+//              // Nous sommes dans la zone et nous n'avons pas chargé d'image
+//               if(aDejaChargImage == false){
+//               buttonOver = true;
+//               }
+//               
+//               // Nous sommes dans la zone et nous avons déjà chargé une image
+//               else{
+//               buttonOver = false;
+//               }
+//               
+//              }
+              
+              // Nous ne sommes pas dans la zone notre historique de chargement d'image est remis à zéro
+              fill(255,0,0);
+              rect(positionRectX1, positionRectY, rectSizeX, rectSizeY);
+              fill(0);
+              text("Explode that shit!", 60, 70);
+    
+
+              fill(0,0,255);
+              rect(positionRectX2, positionRectY, rectSizeX, rectSizeY);
+              fill(0);
+              text("Add another one !", 260, 70);  
+            break;            
     
         }
     }
