@@ -88,6 +88,8 @@ int tempX, tempY;
 ArrayList listeDePoint = new ArrayList();
 boolean imageLoaded = false;
 
+.....
+
 unPoint un = new unPoint();
 unPoint temp = new unPoint();
 unPoint position = new unPoint();
