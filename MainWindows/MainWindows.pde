@@ -1,7 +1,6 @@
 // ******************************** VARIABLES ******************************** //
 
 //// PREMIERE fenetre
-import megamu.shapetween.*;
 
 PImage imageImportee;
 PImage imageContour;
@@ -41,6 +40,7 @@ PFont font;
 
 int positionEllX, positionEllY;
 int positionEllX2, positionEllY2;
+int positionEllX3, positionEllY3;
 
 int rectSizeX;
 int rectSizeY;
@@ -73,7 +73,7 @@ boolean   delaunayNotSetted = true;
 
 //On cree la liste de point
 //List listePointCercle = new LinkedList();
-int nombrePoint =60;
+int nombrePoint =200;
 float tableauDePoint[][] = new float[nombrePoint][3];
 int seuil = 20;
 

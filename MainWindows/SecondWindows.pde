@@ -26,7 +26,7 @@ public class secondApplet extends PApplet {
             case 1:
             //On charge l'image
 
-               text("bonjour je m'appelle adrien et ceci est l'etape 1", 40, 40);
+               text("Bonjour et bienvenue dans le logiciel Archi'texture", 40, 40);
               
                 positionRectX = 50;
                 positionRectY = 50;
@@ -66,11 +66,15 @@ public class secondApplet extends PApplet {
             break;
             
             case 2:
-            //On donne le choix à l'utilisateur du type de transformation:
+            //On donne le choix à l'utilisateur du type de transformation + nombre de points qu'il veut avoir
             
             
               positionEllX= 50;
               positionEllY= 50;
+              
+              positionEllX3= 50;
+              positionEllY3= 230;
+              
               positionSourisX = mouseX;
               positionSourisY = mouseY;
               
@@ -79,15 +83,18 @@ public class secondApplet extends PApplet {
               text("Type 1 : Selectionner un contour à main levée", positionEllX +13, positionEllY +5);
               text("Type 2 : Selectionner un contour par expansion", positionEllX +13, positionEllY +27);
               
+              text("Veuillez choisir un nombre de point pour l'explosion ", 30, 180);
+              
               fill(255);
-              ellipse(positionEllX, positionEllY, 14, 14); //diamètre ellipse =14
+              ellipse(positionEllX, positionEllY, 14, 14); //diamètre ellipse = 14
+              ellipse(positionEllX3, positionEllY3, 17,17); //diamètre de notre slider = 16
               
               positionEllX2 = positionEllX;
               positionEllY2 = positionEllY+23;
               
               ellipse(positionEllX2,positionEllY2, 14, 14);
               
-             
+             // On remplit les ellipse avec un point bleu
              if(choixTransformation == 1){
                fill( 0, 121, 184 );
                ellipse(positionEllX, positionEllY, 6, 6);   
@@ -113,25 +120,31 @@ public class secondApplet extends PApplet {
               text("Vous pouvez maintenant tracer un contour autour de la forme que vous voulez éclater", 30, 30);
     
             break;
+            
+        
     
         }
     }
     
     
     void mousePressed(){
+              
+              // Selection pour le type de transformation
+              
              if (positionSourisX >= positionEllX-7 && positionSourisX <= positionEllX+7 && positionSourisY >= positionEllY-7 && positionSourisY <= positionEllY+7) {
                 
                 println("Main levée");
+                
+               choixTransformation = 1;
                 ETAT =202;
-
               }
               
               if (positionSourisX >= positionEllX2-7 && positionSourisX <= positionEllX2+7 && positionSourisY >= positionEllY2-7 && positionSourisY <= positionEllY2+7) {
                 
                 println("Circulaire");
-                ETAT =201;
                 
-              
+                choixTransformation = 2;
+                ETAT =201;
               }
               
               
