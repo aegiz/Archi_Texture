@@ -1,6 +1,7 @@
 // ******************************** VARIABLES ******************************** //
 
 //// PREMIERE fenetre
+import megamu.shapetween.*;
 
 PImage imageImportee;
 PImage imageContour;
@@ -21,6 +22,12 @@ boolean tableConverted = false;
 int x;
 int y;
 int i=0; // variable globale servant à definir le nombre de sommets progressivement
+
+// variables pour l'animation d'explosion
+Tween ani;
+BezierShaper mon_bezier;
+
+
 
 
 
@@ -48,7 +55,7 @@ int choixTransformation; // 0 = pas encore assigné 1 = delaunay, 2 = polaires
 
 int ETAT =1;
 
-// ******************************** VARIABLES POUR L'EXCTRACTION DES CONTOURS ******************************* //
+// ******************************** VARIABLES POUR L'EXTRACTION DES CONTOURS ******************************* //
 //declaration des classes
 class unPoint{
   int x;
@@ -66,7 +73,7 @@ boolean   delaunayNotSetted = true;
 
 //On cree la liste de point
 //List listePointCercle = new LinkedList();
-int nombrePoint =10;
+int nombrePoint =60;
 float tableauDePoint[][] = new float[nombrePoint][3];
 int seuil = 20;
 
@@ -94,6 +101,17 @@ float [] [] points = new float [350][350];
 float [] [] tableauSommetCoordonnees = new float [2][350]; // On considère que le nombre de sommets max est 350
 
 Delaunay myDelaunay;
+
+
+// ******************************** PARAMETRES POUR L'EXPLOSION ******************************** //
+
+
+float indiceExplosion = 0;
+float vitesseExplosion = 2;
+float pesanteur = 0.02;
+float aleatoire = 0.2;
+
+int [][] donneesExplosion;
 // ******************************** PARAMETRES DE LA FENETRE PRINCIPALE ******************************** //
 
 void setup(){
@@ -112,12 +130,11 @@ void setup(){
   textFont(font);
   
   PFrame f = new PFrame();
+  
  // Pour mettre eventuellement notre fenêtre en mode undecorated
- 
  // f.dispose();
   //f.setUndecorated(true);
   //f.setVisible(true);
-
 }
 
 
@@ -133,6 +150,8 @@ void draw() { //draw() est appellée à chaque frame
    s.fill(100);
    s.redraw();// On raffraichit notre seconde fenetre à chaque frame
   
+  
+    
 
   switch (ETAT){
     
@@ -269,14 +288,21 @@ void draw() { //draw() est appellée à chaque frame
     break;   
     
     case 7:
-    //Choix explosion
+    // On dessine les triangles avec la texture d'arrière plan
+    dessineTriangles();
+    preparationExplosion();
+    ETAT = 702;
 
-    ETAT = 701;
     break;   
     
-    case 702:
+    case 702:  //On explose tout ça de manière dynamique
+
     dessineTriangles();
-    //On explose tout ça de manière dynamique
+    indiceExplosion++;
+    eclatementTriangles();
+    if(indiceExplosion>100){
+      ETAT = 8;
+    }
     break;
     
     case 701:
