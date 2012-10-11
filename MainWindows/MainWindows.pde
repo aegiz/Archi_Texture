@@ -1,7 +1,6 @@
 // ******************************** VARIABLES ******************************** //
 
 //// PREMIERE fenetre
-import megamu.shapetween.*;
 
 PImage imageImportee;
 PImage imageContour;
@@ -23,15 +22,6 @@ int x;
 int y;
 int i=0; // variable globale servant à definir le nombre de sommets progressivement
 
-// variables pour l'animation d'explosion
-Tween ani;
-BezierShaper mon_bezier;
-
-
-
-
-
-
 // DEUXIEME fenetre
 
 
@@ -41,10 +31,14 @@ PFont font;
 
 int positionEllX, positionEllY;
 int positionEllX2, positionEllY2;
+int positionEllX3, positionEllY3;
 
-int rectSizeX;
-int rectSizeY;
+boolean onEnterFrame = true;
+
+int rectWidth, rectHeight;
+int rectWidth2, rectHeight2;
 int positionRectX, positionRectY;
+int positionRectX2, positionRectY2;
 
 int positionSourisX, positionSourisY;
 
@@ -54,7 +48,6 @@ boolean aDejaChargImage=false;
 int choixTransformation; // 0 = pas encore assigné 1 = delaunay, 2 = polaires
 
 int ETAT =1;
-
 // ******************************** VARIABLES POUR L'EXTRACTION DES CONTOURS ******************************* //
 //declaration des classes
 class unPoint{
@@ -73,7 +66,7 @@ boolean   delaunayNotSetted = true;
 
 //On cree la liste de point
 //List listePointCercle = new LinkedList();
-int nombrePoint =60;
+int nombrePoint = 60;
 float tableauDePoint[][] = new float[nombrePoint][3];
 int seuil = 20;
 
@@ -87,8 +80,6 @@ int tempX, tempY;
 // pour le tracé à main levé
 ArrayList listeDePoint = new ArrayList();
 boolean imageLoaded = false;
-
-.....
 
 unPoint un = new unPoint();
 unPoint temp = new unPoint();
@@ -119,6 +110,7 @@ int [][] donneesExplosion;
 void setup(){
   
   
+  
   size(500, 500, P3D);
   background(255, 255, 255);
   
@@ -128,23 +120,17 @@ void setup(){
   
   smooth();
   
-  font = loadFont("ArabicTypesetting-20.vlw"); // Cette police pixellise moins
-  textFont(font);
+  font = loadFont("ArialMT-20.vlw"); // Cette police pixellise moins
+  textFont(font,12);
   
   PFrame f = new PFrame();
+  
   
  // Pour mettre eventuellement notre fenêtre en mode undecorated
  // f.dispose();
   //f.setUndecorated(true);
   //f.setVisible(true);
   
-  // On définit les paramètres de notre animation
-  
-  ani = new Tween(this, 10);
-  mon_bezier = new BezierShaper(Tween.IN); 
-  mon_bezier.setInHandle(0,1); // pour avoir des paramètres compris entre 0 et 1 ici on fait une courbe bésier "parfaite"
-  ani.setEasing( mon_bezier );
-
 }
 
 
@@ -153,7 +139,7 @@ void setup(){
 
 
 void draw() { //draw() est appellée à chaque frame
-    print("\n \n Etat : " + ETAT);
+   // print("\n \n Etat : " + ETAT);
    // print(" Nous somme dans l'état : " + ETAT+ "\n");
 
    s.background(255, 255, 255); // On met un fond blanc dans l'autre fenêtre en permanence ce qui permet d'avoir un texte propre
@@ -307,6 +293,7 @@ void draw() { //draw() est appellée à chaque frame
     
     case 702:  //On explose tout ça de manière dynamique
 
+    dessineTriangles();
     indiceExplosion++;
     eclatementTriangles();
     if(indiceExplosion>100){
