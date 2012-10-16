@@ -71,7 +71,7 @@ public class secondApplet extends PApplet {
                 text("Note:", 40, 170);
                 
                 fill(100,100,100);
-                text("Pour une question de performance", 50, 170);
+                text("Pour une question de performance", 75, 170);
                 text("veuillez noter que votre image sera ", 75, 190);
                 text("resizée au format 500*500 px", 75, 210);
                 
@@ -216,26 +216,12 @@ public class secondApplet extends PApplet {
               fill(0);
               text("Fin de l'animation. Voulez-vous sauvegarder?", 30, 30);
               
+              fill(255);
               
-              // ******************* bug car nous n'avons plus la main dans la fenêtre secondaire
+              text("SAVE", positionRectX3+10, positionRectY3 +20);
+              text("RESTART", positionRectX3+10, positionRectY3 + rectHeight3 + 40);
               
-              if ( positionSourisX >= positionRectX3 && positionSourisX <= positionRectX3 +rectWidth3 && positionSourisY >= positionRectY3 && positionSourisY <= positionRectY3 + rectHeight3) {
-                fill( 100, 100, 100 );
-              }
-              else {
-                  fill( 0, 121, 184 );
-              }
-              
-             
-              
-             
-              
-              rect(positionRectX3, positionRectY3, rectWidth3, rectHeight3);
-              rect(positionRectX3, positionRectY3 + rectHeight3 +20 , rectWidth3+20, rectHeight3);
-              
-              fill(0);
-              text("SAVE", positionRectX3+8, positionRectY3 + rectHeight3/2);
-              text("RESTART", 30+8, positionRectY2 + 70);
+              /* due to unknown reason the validation rectangle have to be drown in the master window ... Check the state 8 */
               
            break;
         }
@@ -243,12 +229,6 @@ public class secondApplet extends PApplet {
     
     
     void mousePressed(){
-     
-      // Bouton d'exit!
-      
-      if (positionSourisX >= width-25 && positionSourisX <= width-5 && positionSourisY >= 5 && positionSourisY <= 25) {
-        exit();         
-      }
 
       
       switch (ETAT){
@@ -281,14 +261,7 @@ public class secondApplet extends PApplet {
 
              }
             break;
-            
-            case 8:
-            
-            
-            
-            
-            
-            break;
+
             
       }
               

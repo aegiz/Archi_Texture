@@ -135,7 +135,14 @@ void draw() { //draw() est appellée à chaque frame
    s.fill(100);
    s.redraw();// On raffraichit notre seconde fenetre à chaque frame
   
+  // Le bouton d'exit de la fenêtre esclave
   
+  if (s.mousePressed){
+      
+       if (s.mouseX >= s.width-25 && s.mouseX <= s.width-5 && s.mouseY >= 5 && s.mouseY <= 25) {
+          exit();         
+       }
+  }
     
 
   switch (ETAT){
@@ -285,32 +292,54 @@ void draw() { //draw() est appellée à chaque frame
     dessineTriangles();
     indiceExplosion++;
     eclatementTriangles();
-    if(indiceExplosion>100){ // on est alors rendu à la fin de l'explosion
+    if(indiceExplosion>20){ // on est alors rendu à la fin de l'explosion
       ETAT = 8;
     }
     break;
     
     case 701:
- 
+    
+    
+   
     break;
     
-    case 801:
-    //On récupére le JPEG
-    
-    String savePath = selectOutput();  // Opens file chooser
-    
-    if (savePath == null) {
-      // If a file was not selected
-      println("No output file was selected...");
-    } else {
-      // If a file was selected, print path to folder
-      println(savePath);
-      // On ne sauvegarde que si le chemin est valide
-      save(savePath);
+    case 8:
+      s.fill(255,0,0);      
+      s.rect(positionRectX3, positionRectY3, rectWidth3, rectHeight3);
+      s.rect(positionRectX3, positionRectY3 + rectHeight3 +20 , rectWidth3+20, rectHeight3);
+     
+      if (s.mousePressed){
+        if ( s.mouseX >= positionRectX3 && s.mouseX <= positionRectX3 +rectWidth3 && s.mouseY >= positionRectY3 && s.mouseY <= positionRectY3 + rectHeight3) {
+           ETAT = 801;
+        }
+        if (s.mouseX >= positionRectX3 && s.mouseX <= positionRectX3 +rectWidth3+20 && s.mouseY >= positionRectY3 + rectHeight3 +20 && s.mouseY <= positionRectY3 + 2*rectHeight3 +20) {
+           ETAT = 1;
+        }
+        
+      }
       
-    }
+        
+    break;
+    
+    case 801: //On récupére le JPEG
+    
+      String savePath = selectOutput();  // Opens file chooser
+      
+      if (savePath == null) {
+        // If a file was not selected
+        println("No output file was selected...");
+      } 
+      
+      else {
+       
+        // On ne sauvegarde que si le chemin est valide
+        save(savePath);
+         imageImportee =loadImage("Presentation1.png");
+         ETAT = 1;
+      }
     
     break;
+    
 
   }
 }
