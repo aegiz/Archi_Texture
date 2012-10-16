@@ -24,30 +24,18 @@ int i=0; // variable globale servant à definir le nombre de sommets progressive
 
 // DEUXIEME fenetre
 
-
 PFrame f;
 secondApplet s;
 PFont font;
-
-int positionEllX, positionEllY;
-int positionEllX2, positionEllY2;
-int positionEllX3, positionEllY3;
-
-boolean onEnterFrame = true;
-
-int rectWidth, rectHeight;
-int rectWidth2, rectHeight2;
-int positionRectX, positionRectY;
-int positionRectX2, positionRectY2;
-
-int positionSourisX, positionSourisY;
-
 
 boolean buttonOver;
 boolean aDejaChargImage=false;
 int choixTransformation; // 0 = pas encore assigné 1 = delaunay, 2 = polaires
 
+
+// L'Etat de notre machine 
 int ETAT =1;
+
 // ******************************** VARIABLES POUR L'EXTRACTION DES CONTOURS ******************************* //
 //declaration des classes
 class unPoint{
@@ -105,6 +93,7 @@ float pesanteur = 0.02;
 float aleatoire = 0.2;
 
 int [][] donneesExplosion;
+
 // ******************************** PARAMETRES DE LA FENETRE PRINCIPALE ******************************** //
 
 void setup(){
@@ -139,7 +128,7 @@ void setup(){
 
 
 void draw() { //draw() est appellée à chaque frame
-   // print("\n \n Etat : " + ETAT);
+    print("\n \n Etat : " + ETAT);
    // print(" Nous somme dans l'état : " + ETAT+ "\n");
 
    s.background(255, 255, 255); // On met un fond blanc dans l'autre fenêtre en permanence ce qui permet d'avoir un texte propre
@@ -296,7 +285,7 @@ void draw() { //draw() est appellée à chaque frame
     dessineTriangles();
     indiceExplosion++;
     eclatementTriangles();
-    if(indiceExplosion>100){
+    if(indiceExplosion>100){ // on est alors rendu à la fin de l'explosion
       ETAT = 8;
     }
     break;
@@ -305,8 +294,22 @@ void draw() { //draw() est appellée à chaque frame
  
     break;
     
-    case 8:
+    case 801:
     //On récupére le JPEG
+    
+    String savePath = selectOutput();  // Opens file chooser
+    
+    if (savePath == null) {
+      // If a file was not selected
+      println("No output file was selected...");
+    } else {
+      // If a file was selected, print path to folder
+      println(savePath);
+      // On ne sauvegarde que si le chemin est valide
+      save(savePath);
+      
+    }
+    
     break;
 
   }

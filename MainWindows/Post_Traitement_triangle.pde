@@ -1,5 +1,5 @@
 void dessineTriangles(){
-  println("\n Hello");
+  //println("\n Hello");
   for(int t=nombreTriangles-1; t!=-1; t--){ //Pour chaque triangle on lui donne la texture qui est dessous
      
     beginShape(); // on trace une shape avec 3 sommets donc un triangle
