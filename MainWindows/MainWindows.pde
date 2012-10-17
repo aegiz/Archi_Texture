@@ -54,6 +54,7 @@ boolean   delaunayNotSetted = true;
 
 //On cree la liste de point
 //List listePointCercle = new LinkedList();
+int nombrePointDepart = 60;
 int nombrePoint = 60;
 float tableauDePoint[][] = new float[nombrePoint][3];
 int seuil = 20;
@@ -77,7 +78,7 @@ float xCen =0, yCen = 0;
 // ******************************** PARAMETRES POUR LA DELAUNAY ******************************** //
  
  
- float [][] pointsATracer = new float [nombrePoint][2];
+float [][] pointsATracer = new float [nombrePoint][2];
 float [] [] points = new float [350][350];
 float [] [] tableauSommetCoordonnees = new float [2][350]; // On considère que le nombre de sommets max est 350
 
@@ -183,11 +184,6 @@ void draw() { //draw() est appellée à chaque frame
     break;
     
     case 2:
-    // On selectionne la méthode de contour
-    // On applique nos traitements sur l'image pour faire apparaitre les contours
-    
-    if(typeSelection == 2) ETAT = 202;
-    if(typeSelection == 1) ETAT = 201;
 
     break;
     
@@ -282,8 +278,8 @@ void draw() { //draw() est appellée à chaque frame
     case 7:
     // On dessine les triangles avec la texture d'arrière plan
     dessineTriangles();
-    preparationExplosion();
-    ETAT = 702;
+  //  preparationExplosion();
+   // ETAT = 702;
 
     break;   
     

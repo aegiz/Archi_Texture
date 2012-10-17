@@ -253,9 +253,11 @@ public class secondApplet extends PApplet {
              if ( positionSourisX >= 30 && positionSourisX <= 30+rectWidth + 15 && positionSourisY >= positionRectY2 + 50 && positionSourisY <= positionRectY2 + 50 +rectHeight) {
                
                if(choixTransformation==1){
+                 tabInit();
                  ETAT =202;
                }
                if(choixTransformation==2){
+                 tabInit();                 
                  ETAT =201;
                }
 
