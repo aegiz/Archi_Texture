@@ -155,6 +155,7 @@ void imageContour(){
 
 void tabInit(){
   print("\n nombrePoint: " + nombrePoint + " \n ");
+  tableauDePoint = new float[nombrePoint][3];
   for(int i =0; i!= nombrePoint; i++){
     //print("coucou");
      tableauDePoint[i][0] = 10;
