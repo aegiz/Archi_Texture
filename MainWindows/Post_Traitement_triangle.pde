@@ -1,5 +1,5 @@
 void dessineTriangles(){
-  //println("\n Hello");
+  println("\n Hello");
   for(int t=nombreTriangles-1; t!=-1; t--){ //Pour chaque triangle on lui donne la texture qui est dessous
      
     beginShape(); // on trace une shape avec 3 sommets donc un triangle
@@ -43,11 +43,11 @@ void preparationExplosion(){
     vectY = floor((vectY / (sqrt(float(vectX*vectX + vectY*vectY))))* vitesseExplosion);
     
     //On active la rotation aléatoirement
-
+<<<<<<< HEAD
     if(random(-1,1)>0.5) donneesExplosion[t][2]=1;
-
+=======
     if(random(-1,1)>0.8) donneesExplosion[t][2]=1;
-
+>>>>>>> Explosion avec point randomisé
     else donneesExplosion[t][2]=0;
     
     //On ajoute une valeur aléatoire sur la vitesse du vecteur.
@@ -87,7 +87,11 @@ void eclatementTriangles(){
     vertex(TableauCoodonneesExtraites[t][1][0]+ vectX, TableauCoodonneesExtraites[t][1][1]+ vectY, TableauCoodonneesExtraites[t][1][0], TableauCoodonneesExtraites[t][1][1] );
     vertex(TableauCoodonneesExtraites[t][2][0]+ vectX, TableauCoodonneesExtraites[t][2][1]+ vectY, TableauCoodonneesExtraites[t][2][0], TableauCoodonneesExtraites[t][2][1] );
     endShape();
- 
+    if(boolean(donneesExplosion[t][2])){
+      translate(0,0);
+      rotate((indiceExplosion%10)*(PI/10));
+      translate(TableauCoodonneesExtraites[t][0][0]+ vectX,TableauCoodonneesExtraites[t][0][1]+ vectY); 
+    }     
  
   }
 }

@@ -154,12 +154,9 @@ void imageContour(){
 //}
 
 void tabInit(){
-  print("\n nombrePoint: " + nombrePoint + " \n ");
-  tableauDePoint = new float[nombrePoint][3];
   for(int i =0; i!= nombrePoint; i++){
-    //print("coucou");
      tableauDePoint[i][0] = 10;
      tableauDePoint[i][1] = 0;
-    // tableauDePoint[i][2] = 2*PI*(float(i+1 )/nombrePoint) ;    
+     tableauDePoint[i][2] = 2*PI*(float(i+1 )/nombrePoint) ;    
   }
 }

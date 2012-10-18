@@ -1,6 +1,7 @@
 // ******************************** VARIABLES ******************************** //
 
 //// PREMIERE fenetre
+import megamu.shapetween.*;
 
 PImage imageImportee;
 PImage imageContour;
@@ -22,18 +23,36 @@ int x;
 int y;
 int i=0; // variable globale servant à definir le nombre de sommets progressivement
 
+// variables pour l'animation d'explosion
+Tween ani;
+BezierShaper mon_bezier;
+
+
+
+
+
+
 // DEUXIEME fenetre
+
 
 PFrame f;
 secondApplet s;
 PFont font;
 
+int positionEllX, positionEllY;
+int positionEllX2, positionEllY2;
+
+int rectSizeX;
+int rectSizeY;
+int positionRectX, positionRectY;
+
+int positionSourisX, positionSourisY;
+
+
 boolean buttonOver;
 boolean aDejaChargImage=false;
 int choixTransformation; // 0 = pas encore assigné 1 = delaunay, 2 = polaires
 
-
-// L'Etat de notre machine 
 int ETAT =1;
 
 // ******************************** VARIABLES POUR L'EXTRACTION DES CONTOURS ******************************* //
@@ -54,8 +73,7 @@ boolean   delaunayNotSetted = true;
 
 //On cree la liste de point
 //List listePointCercle = new LinkedList();
-int nombrePointDepart = 60;
-int nombrePoint = 60;
+int nombrePoint =60;
 float tableauDePoint[][] = new float[nombrePoint][3];
 int seuil = 20;
 
@@ -78,7 +96,7 @@ float xCen =0, yCen = 0;
 // ******************************** PARAMETRES POUR LA DELAUNAY ******************************** //
  
  
-float [][] pointsATracer = new float [nombrePoint][2];
+ float [][] pointsATracer = new float [nombrePoint][2];
 float [] [] points = new float [350][350];
 float [] [] tableauSommetCoordonnees = new float [2][350]; // On considère que le nombre de sommets max est 350
 
@@ -94,11 +112,9 @@ float pesanteur = 0.02;
 float aleatoire = 0.2;
 
 int [][] donneesExplosion;
-
 // ******************************** PARAMETRES DE LA FENETRE PRINCIPALE ******************************** //
 
 void setup(){
-  
   
   
   size(500, 500, P3D);
@@ -110,17 +126,15 @@ void setup(){
   
   smooth();
   
-  font = loadFont("ArialMT-20.vlw"); // Cette police pixellise moins
-  textFont(font,12);
+  font = loadFont("ArabicTypesetting-20.vlw"); // Cette police pixellise moins
+  textFont(font);
   
   PFrame f = new PFrame();
-  
   
  // Pour mettre eventuellement notre fenêtre en mode undecorated
  // f.dispose();
   //f.setUndecorated(true);
   //f.setVisible(true);
-  
 }
 
 
@@ -136,14 +150,7 @@ void draw() { //draw() est appellée à chaque frame
    s.fill(100);
    s.redraw();// On raffraichit notre seconde fenetre à chaque frame
   
-  // Le bouton d'exit de la fenêtre esclave
   
-  if (s.mousePressed){
-      
-       if (s.mouseX >= s.width-25 && s.mouseX <= s.width-5 && s.mouseY >= 5 && s.mouseY <= 25) {
-          exit();         
-       }
-  }
     
 
   switch (ETAT){
@@ -184,6 +191,11 @@ void draw() { //draw() est appellée à chaque frame
     break;
     
     case 2:
+    // On selectionne la méthode de contour
+    // On applique nos traitements sur l'image pour faire apparaitre les contours
+    
+    if(typeSelection == 2) ETAT = 202;
+    if(typeSelection == 1) ETAT = 201;
 
     break;
     
@@ -278,64 +290,31 @@ void draw() { //draw() est appellée à chaque frame
     case 7:
     // On dessine les triangles avec la texture d'arrière plan
     dessineTriangles();
-  //  preparationExplosion();
-   // ETAT = 702;
+    preparationExplosion();
+    ETAT = 702;
 
     break;   
     
     case 702:  //On explose tout ça de manière dynamique
+<<<<<<< HEAD
 
+=======
     dessineTriangles();
+>>>>>>> Explosion avec point randomisé
     indiceExplosion++;
     eclatementTriangles();
-    if(indiceExplosion>20){ // on est alors rendu à la fin de l'explosion
+    if(indiceExplosion>100){
       ETAT = 8;
     }
     break;
     
     case 701:
-    
-    
-   
+ 
     break;
     
     case 8:
-      s.fill(255,0,0);      
-      s.rect(positionRectX3, positionRectY3, rectWidth3, rectHeight3);
-      s.rect(positionRectX3, positionRectY3 + rectHeight3 +20 , rectWidth3+20, rectHeight3);
-     
-      if (s.mousePressed){
-        if ( s.mouseX >= positionRectX3 && s.mouseX <= positionRectX3 +rectWidth3 && s.mouseY >= positionRectY3 && s.mouseY <= positionRectY3 + rectHeight3) {
-           ETAT = 801;
-        }
-        if (s.mouseX >= positionRectX3 && s.mouseX <= positionRectX3 +rectWidth3+20 && s.mouseY >= positionRectY3 + rectHeight3 +20 && s.mouseY <= positionRectY3 + 2*rectHeight3 +20) {
-           ETAT = 1;
-        }
-        
-      }
-      
-        
+    //On récupére le JPEG
     break;
-    
-    case 801: //On récupére le JPEG
-    
-      String savePath = selectOutput();  // Opens file chooser
-      
-      if (savePath == null) {
-        // If a file was not selected
-        println("No output file was selected...");
-      } 
-      
-      else {
-       
-        // On ne sauvegarde que si le chemin est valide
-        save(savePath);
-         imageImportee =loadImage("Presentation1.png");
-         ETAT = 1;
-      }
-    
-    break;
-    
 
   }
 }
