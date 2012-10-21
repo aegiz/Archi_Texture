@@ -20,6 +20,8 @@ public class secondApplet extends PApplet {
     }
     
     public void draw() {
+              positionSourisX = mouseX;
+              positionSourisY = mouseY;      
 
         frameRate(100);   // On met un framerate assez elevé pour ne pas avoir de saute de rafraissisement.
         switch (ETAT){
@@ -35,8 +37,6 @@ public class secondApplet extends PApplet {
                 rectSizeY =30;
                 
                // On repère à chaque frame la potition de la souris pour savoir si on est dans la zone d'upload ou pas
-                positionSourisX = mouseX;
-                positionSourisY = mouseY;
 
                 if ( positionSourisX >= positionRectX && positionSourisX <= positionRectX+rectSizeX && positionSourisY >= positionRectY && positionSourisY <= positionRectY+rectSizeY) {
                 
@@ -71,9 +71,7 @@ public class secondApplet extends PApplet {
               
               positionEllX= 50;
               positionEllY= 50;
-              positionSourisX = mouseX;
-              positionSourisY = mouseY;
-              
+
               fill(0);
               text("Quelle transformation voulez-vous effectuer?", 30, 30);
               text("Type 1 : Selectionner un contour à main levée", positionEllX +13, positionEllY +5);
@@ -97,6 +95,24 @@ public class secondApplet extends PApplet {
                  ellipse(positionEllX2, positionEllY2, 6, 6);
               
                }
+              // Dans le cas où l'utilisateur demande une explosion encadré               
+             if (positionSourisX >= positionEllX-7 && positionSourisX <= positionEllX+7 && positionSourisY >= positionEllY-7 && positionSourisY <= positionEllY+7) {
+                 
+                //On ajoute un nouvel élément à la liste chainée                 
+                lesAmorces.add(new AMORCE());
+                lesAmorces.getLast().nombrePoint = variableEnvironnement.nombrePointBase;
+                lesAmorces.getLast().choixTransformation = 1;                   
+                ETAT =202;
+                
+              }
+              // Dans le cas où l'utilisateur demande une explosion circulaire
+              if (positionSourisX >= positionEllX2-7 && positionSourisX <= positionEllX2+7 && positionSourisY >= positionEllY2-7 && positionSourisY <= positionEllY2+7) {
+                
+                //On ajoute un nouvel élément à la liste chainée                 
+                lesAmorces.add(new AMORCE());
+                lesAmorces.getLast().nombrePoint = variableEnvironnement.nombrePointBase;
+                lesAmorces.getLast().choixTransformation = 1;            
+                ETAT =201;                
             
             break;
             
@@ -117,9 +133,11 @@ public class secondApplet extends PApplet {
               fill(0);
               text("Voulez vous ajouter d'autre contour ?", 30, 30);
               positionRectX1 = 50;
-              positionRectX2 = 250;              
+              positionRectX2 = 250;    
+              positionRectX3 = 150;           
               positionRectY = 50;
-               
+              positionRectY3 = 150;
+              
               rectSizeX = 120;
               rectSizeY = 30;
               
@@ -127,17 +145,22 @@ public class secondApplet extends PApplet {
               positionSourisX = mouseX;
               positionSourisY = mouseY;
               
-              if ( positionSourisX >= positionRectX1 && positionSourisX <= positionRectX1+rectSizeX && positionSourisY >= positionRectY && positionSourisY <= positionRectY+rectSizeY) {
+              if ( positionSourisX >= positionRectX1 && positionSourisX <= positionRectX1+rectSizeX && positionSourisY >= positionRectY && positionSourisY <= positionRectY+rectSizeY){
                 ETAT = 7;
               }
               if ( positionSourisX >= positionRectX2 && positionSourisX <= positionRectX2+rectSizeX && positionSourisY >= positionRectY && positionSourisY <= positionRectY+rectSizeY) {
 
                 tableauDePoint = new float[nombrePoint][3];                
                 tabInit();
-                typeSelection = 0;
+                choixTransformation = 0;
                 nombrePoint = nombrePointBase;
-                ETAT = 2;                
+                ETAT = 2;         
+                mouseHasBeenReleased = false;       
+                collisionEnded=false;
 
+              }  
+              if ( positionSourisX >= positionRectX3 && positionSourisX <= positionRectX3+rectSizeX && positionSourisY >= positionRectY3 && positionSourisY <= positionRectY3+rectSizeY){
+                ETAT = 7;
               }              
               
 //              // Nous sommes dans la zone et nous n'avons pas chargé d'image
@@ -162,7 +185,12 @@ public class secondApplet extends PApplet {
               fill(0,0,255);
               rect(positionRectX2, positionRectY, rectSizeX, rectSizeY);
               fill(0);
-              text("Add another one !", 260, 70);  
+              text("Add another one !", 260, 70); 
+
+              fill(255,0,255);
+              rect(positionRectX3, positionRectY3, rectSizeX, rectSizeY);
+              fill(0);
+              text("Make the previous one again !", 160, 170);                
             break;            
     
         }
@@ -170,24 +198,7 @@ public class secondApplet extends PApplet {
     
     
     void mousePressed(){
-             if (positionSourisX >= positionEllX-7 && positionSourisX <= positionEllX+7 && positionSourisY >= positionEllY-7 && positionSourisY <= positionEllY+7) {
-                
-                println("Main levée");
-                ETAT =202;
-
-              }
-              
-              if (positionSourisX >= positionEllX2-7 && positionSourisX <= positionEllX2+7 && positionSourisY >= positionEllY2-7 && positionSourisY <= positionEllY2+7) {
-                
-                println("Circulaire");
-                ETAT =201;
-                
-              
-              }
-              
+       
               
     }
-
-
-
 }

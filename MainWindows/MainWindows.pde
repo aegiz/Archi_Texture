@@ -44,7 +44,7 @@ int positionEllX2, positionEllY2;
 
 int rectSizeX;
 int rectSizeY;
-int positionRectX,positionRectX1,positionRectX2, positionRectY;
+int positionRectX,positionRectX1,positionRectX2, positionRectX3, positionRectY, positionRectY3;
 
 int positionSourisX, positionSourisY;
 
@@ -57,7 +57,7 @@ int ETAT =1;
 
 // ******************************** VARIABLES POUR L'EXTRACTION DES CONTOURS ******************************* //
 //declaration des classes
-class unPoint{
+class UNPOINT{
   int x;
   int y;
   boolean arrete = false;
@@ -66,21 +66,12 @@ class unPoint{
 //declaration des variables
 int mousePress = 1;
 
-boolean   mouseHasBeenPressed = false;
-boolean   mouseHasBeenReleased = false;
-boolean   collisionEnded = false;
-boolean   delaunayNotSetted = true;
-
-//On cree la liste de point
-//List listePointCercle = new LinkedList();
-int nombrePoint =60;
-int nombrePointBase =60;
 float tableauDePoint[][] = new float[nombrePoint][3];
 int seuil = 20;
 
 
 //Pour la figure à main levée
-unPoint pointChemin = new unPoint();
+UNPOINT pointChemin = new UNPOINT();
 
 int typeSelection = 0;
 int tempX, tempY;
@@ -89,10 +80,11 @@ int tempX, tempY;
 ArrayList listeDePoint = new ArrayList();
 boolean imageLoaded = false;
 
-unPoint un = new unPoint();
-unPoint temp = new unPoint();
-unPoint position = new unPoint();
+UNPOINT un = new UNPOINT();
+UNPOINT temp = new UNPOINT();
+UNPOINT position = new UNPOINT();
 float xCen =0, yCen = 0;
+
 
 // ******************************** PARAMETRES POUR LA DELAUNAY ******************************** //
  
@@ -113,10 +105,54 @@ float pesanteur = 0.02;
 float aleatoire = 0.2;
 
 int [][] donneesExplosion;
+
 // ******************************** PARAMETRES DE LA FENETRE PRINCIPALE ******************************** //
 
-void setup(){
+
+// ******************************** Variable d'environnement pour l'amorce ***************************** //
+public class ENVAMORCE{
+  public boolean   mouseHasBeenPressed;
+  public   boolean   mouseHasBeenReleased;
+  public   boolean   collisionEnded;
+  public   boolean   delaunayNotSetted;
+  public   int   nombrePointBase;  
   
+  public ENVAMORCE(){
+    mouseHasBeenPressed = false;
+    mouseHasBeenReleased = false;
+    collisionEnded = false;
+    delaunayNotSetted = true;  
+    nombrePointBase = 10; 
+  }
+  
+  public void nouvAmorce(){
+    mouseHasBeenPressed = false;
+    mouseHasBeenReleased = false;
+    collisionEnded = false;
+    delaunayNotSetted = true; 
+    nombrePointBase = 10;   
+  }
+}
+              
+ENVAMORCE variableEnvironnement = new ENVAMORCE();
+
+// ******************************** CLASSE QUI CONTIENT UNE AMORCE D'EXPLOSION***************************** //
+// Les amorce d'explosion contiennent tout ce qu'il faut pour démarer une explosion.
+public class AMORCE{
+  
+  float [][] tableauDePoint; 
+  int nombrePoint;
+  int choixTransformation;
+  UNPOINT centreTransformation;
+  public AMORCE(){
+    choixTransformation = 0;
+    nombrePoint = nombrePointBase;
+  }
+}
+// La liste chainée qui contient toutes les amorces.
+List lesAmorces= new LinkedList();
+
+void setup(){
   
   size(500, 500, P3D);
   background(255, 255, 255);
@@ -131,11 +167,7 @@ void setup(){
   textFont(font);
   
   PFrame f = new PFrame();
-  
- // Pour mettre eventuellement notre fenêtre en mode undecorated
- // f.dispose();
-  //f.setUndecorated(true);
-  //f.setVisible(true);
+ 
 }
 
 
@@ -150,9 +182,6 @@ void draw() { //draw() est appellée à chaque frame
    s.background(255, 255, 255); // On met un fond blanc dans l'autre fenêtre en permanence ce qui permet d'avoir un texte propre
    s.fill(100);
    s.redraw();// On raffraichit notre seconde fenetre à chaque frame
-  
-  
-    
 
   switch (ETAT){
     
@@ -184,7 +213,8 @@ void draw() { //draw() est appellée à chaque frame
                  imageContour();   
                  imageLoaded = true;
                  ETAT =2; 
-
+                 
+                 variableEnvironnement = new ENVAMORCE();
                }
 
        }
@@ -195,8 +225,7 @@ void draw() { //draw() est appellée à chaque frame
     // On selectionne la méthode de contour
     // On applique nos traitements sur l'image pour faire apparaitre les contours
     
-    if(typeSelection == 2) ETAT = 202;
-    if(typeSelection == 1) ETAT = 201;
+
 
     break;
     
