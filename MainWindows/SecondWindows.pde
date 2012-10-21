@@ -100,7 +100,7 @@ public class secondApplet extends PApplet {
                  
                 //On ajoute un nouvel élément à la liste chainée                 
                 lesAmorces.add(new AMORCE());
-                lesAmorces.getLast().nombrePoint = variableEnvironnement.nombrePointBase;
+                lesAmorces.getLast().nombrePoint = lesAmorces.getLast().nombrePointBase;
                 lesAmorces.getLast().choixTransformation = 1;                   
                 ETAT =202;
                 
@@ -110,10 +110,10 @@ public class secondApplet extends PApplet {
                 
                 //On ajoute un nouvel élément à la liste chainée                 
                 lesAmorces.add(new AMORCE());
-                lesAmorces.getLast().nombrePoint = variableEnvironnement.nombrePointBase;
+                lesAmorces.getLast().nombrePoint = lesAmorces.getLast().nombrePointBase;
                 lesAmorces.getLast().choixTransformation = 2;            
                 ETAT =201;                
-            
+              }
             break;
             
             case 201:
@@ -158,25 +158,11 @@ public class secondApplet extends PApplet {
                 mouseHasBeenReleased = false;       
                 collisionEnded=false;
                 ETAT = 2;                     
-
               }  
               if ( positionSourisX >= positionRectX3 && positionSourisX <= positionRectX3+rectSizeX && positionSourisY >= positionRectY3 && positionSourisY <= positionRectY3+rectSizeY){
                 ETAT = 7;
-              }              
+              }            
               
-//              // Nous sommes dans la zone et nous n'avons pas chargé d'image
-//               if(aDejaChargImage == false){
-//               buttonOver = true;
-//               }
-//               
-//               // Nous sommes dans la zone et nous avons déjà chargé une image
-//               else{
-//               buttonOver = false;
-//               }
-//               
-//              }
-              
-              // Nous ne sommes pas dans la zone notre historique de chargement d'image est remis à zéro
               fill(255,0,0);
               rect(positionRectX1, positionRectY, rectSizeX, rectSizeY);
               fill(0);
@@ -196,10 +182,5 @@ public class secondApplet extends PApplet {
     
         }
     }
-    
-    
-    void mousePressed(){
-       
-              
-    }
+
 }

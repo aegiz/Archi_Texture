@@ -20,7 +20,7 @@ void dessineMoiUneCercleTraceAMainLevee(){
 void dessineMoinUnCercle(){
   int x1, x2, y1, y2;
   image(imageImportee, 0, 0,500,500);
-  for(int i =0; i!= nombrePoint-1; i++){
+  for(int i =0; i!= lesAmorces.getLast().nombrePoint-1; i++){
     x1 = floor(cos(lesAmorces.getLast().tableauDePoint[ i ][2])*lesAmorces.getLast().tableauDePoint[ i ][0] + lesAmorces.getLast().centreTransformation.x);
     y1 = floor(sin(lesAmorces.getLast().tableauDePoint[ i ][2])*lesAmorces.getLast().tableauDePoint[ i ][0] + lesAmorces.getLast().centreTransformation.y);
     x2 = floor(cos(lesAmorces.getLast().tableauDePoint[i+1][2])*lesAmorces.getLast().tableauDePoint[i+1][0] + lesAmorces.getLast().centreTransformation.x);
@@ -40,7 +40,7 @@ void collision(){
   imageContour.loadPixels();
   int location=0;
   
-  for(int i =0; i!= variableEnvironnement.nombrePoint; i++){
+  for(int i =0; i!= lesAmorces.getLast().nombrePoint; i++){
     x1 = floor( cos(lesAmorces.getLast().tableauDePoint[i][2])*lesAmorces.getLast().tableauDePoint[i][0] + lesAmorces.getLast().centreTransformation.x);
     y1 = floor( sin(lesAmorces.getLast().tableauDePoint[i][2])*lesAmorces.getLast().tableauDePoint[i][0] + lesAmorces.getLast().centreTransformation.y);
     location = y1 * imageContour.width + x1;
@@ -68,7 +68,7 @@ void collision(){
     }
         rect(x1, y1, 5, 5);
   }
-   if (compteur > variableEnvironnement.nombrePoint / 1.2)
+   if (compteur > lesAmorces.getLast().nombrePoint / 1.2)
     {
      variableEnvironnement.collisionEnded = true;
     }
@@ -102,9 +102,9 @@ void imageContour(){
 }
 
 void tabInit(){
-  for(int i =0; i!= variableEnvironnement.nombrePoint; i++){
+  for(int i =0; i!= lesAmorces.getLast().nombrePoint; i++){
      lesAmorces.getLast().tableauDePoint[i][0] = 10;
      lesAmorces.getLast().tableauDePoint[i][1] = 0;
-     lesAmorces.getLast().tableauDePoint[i][2] = 2*PI*(float(i+1 )/variableEnvironnement.nombrePoint) ;    
+     lesAmorces.getLast().tableauDePoint[i][2] = 2*PI*(float(i+1 )/lesAmorces.getLast().nombrePoint) ;    
   }
 }

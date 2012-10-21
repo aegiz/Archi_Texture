@@ -1,7 +1,3 @@
-
-
-// ******************************** PARAMETRES DE LA FENETRE PRINCIPALE ******************************** //
-
 void setup(){
   
   size(500, 500, P3D);
@@ -17,12 +13,15 @@ void setup(){
   textFont(font);
   
   PFrame f = new PFrame();
- 
+  
+  // La liste chainée qui contient toutes les amorces.
+  lesAmorces= new LinkedList();
+  lesAmorces.add(new AMORCE());
+  // On initialise tout l'environnement
+  variableEnvironnement = new ENVAMORCE();  
 }
 
 
-
-// ******************************** "MAIN" ******************************** //
 
 
 void draw() { //draw() est appellée à chaque frame
@@ -64,7 +63,6 @@ void draw() { //draw() est appellée à chaque frame
                  imageLoaded = true;
                  ETAT =2; 
                  
-                 variableEnvironnement = new ENVAMORCE();
                }
 
        }
@@ -115,7 +113,7 @@ void draw() { //draw() est appellée à chaque frame
         if(!variableEnvironnement.tableConverted){
           
           //Comme on mets les Y à la suite des X dans la liste chainée, nombrePoint = size/2.
-          variableEnvironnement.nombrePoint = listeDePoint.size()/2;
+          lesAmorces.getLast().nombrePoint = listeDePoint.size()/2;
           
           //On fait la moyenne des coordonnées pour trouver le point central
           for(int i=0; i<listeDePoint.size()-1; i+=2)
@@ -130,13 +128,13 @@ void draw() { //draw() est appellée à chaque frame
           yCen /= listeDePoint.size();    
           xCen = floor(xCen)*2;
           yCen = floor(yCen)*2;
-          d
+          
           // On stocke le point central dans l'instance
           lesAmorces.getLast().centreTransformation.x = xCen;
           lesAmorces.getLast().centreTransformation.y = yCen;          
     
           // On copie colle toute les points dans le tableau de point en les mettant en coordonnées polaires
-          tableauDePoint = new float[variableEnvironnement.nombrePoint][3];
+          tableauDePoint = new float[lesAmorces.getLast().nombrePoint][3];
           for(i=0; i<listeDePoint.size()-1; i+=2)
           {
             tempX = (Integer)listeDePoint.get(i);     
@@ -228,7 +226,7 @@ void mousePressed()
 void mouseReleased(){ // on a relâché la souris
 
    if(ETAT==201 || ETAT==202){
-     mouseHasBeenReleased = true;     
+     variableEnvironnement.mouseHasBeenReleased = true;     
     tabInit();
      lesAmorces.getLast().centreTransformation.x = mouseX;
      lesAmorces.getLast().centreTransformation.y = mouseY;

@@ -89,7 +89,7 @@ float xCen =0, yCen = 0;
 // ******************************** PARAMETRES POUR LA DELAUNAY ******************************** //
  
  
- float [][] pointsATracer = new float [nombrePoint][2];
+float [][] pointsATracer = new float [nombrePoint][2];
 float [] [] points = new float [350][350];
 float [] [] tableauSommetCoordonnees = new float [2][350]; // On considère que le nombre de sommets max est 350
 
@@ -108,30 +108,33 @@ int [][] donneesExplosion;
 
 // ******************************** Variable d'environnement pour l'amorce ***************************** //
 public class ENVAMORCE{
-  public boolean   mouseHasBeenPressed;
+  public   boolean   mouseHasBeenPressed;
   public   boolean   mouseHasBeenReleased;
   public   boolean   collisionEnded;
   public   boolean   delaunayNotSetted;
   public   int   nombrePointBase;  
+  public   int amorceNB;
   
   public ENVAMORCE(){
-    mouseHasBeenPressed = false;
-    mouseHasBeenReleased = false;
-    collisionEnded = false;
-    delaunayNotSetted = true;  
-    nombrePointBase = 10; 
+    this.mouseHasBeenPressed = false;
+    this.mouseHasBeenReleased = false;
+    this.collisionEnded = false;
+    this.delaunayNotSetted = true;  
+    this.nombrePointBase = 10; 
+    this.amorceNB = 0;
   }
   
   public void nouvAmorce(){
-    mouseHasBeenPressed = false;
-    mouseHasBeenReleased = false;
-    collisionEnded = false;
-    delaunayNotSetted = true; 
-    nombrePointBase = 10;   
+    this.mouseHasBeenPressed = false;
+    this.mouseHasBeenReleased = false;
+    this.collisionEnded = false;
+    this.delaunayNotSetted = true; 
+    this.nombrePointBase = 10; 
+    this.amorceNB++;
   }
 }
               
-ENVAMORCE variableEnvironnement = new ENVAMORCE();
+  ENVAMORCE variableEnvironnement;
 
 // ******************************** CLASSE QUI CONTIENT UNE AMORCE D'EXPLOSION***************************** //
 // Les amorce d'explosion contiennent tout ce qu'il faut pour démarer une explosion.
@@ -140,11 +143,17 @@ public class AMORCE{
   float [][] tableauDePoint; 
   int nombrePoint;
   int choixTransformation;
-  UNPOINT centreTransformation;
+  public UNPOINT centreTransformation; 
   public AMORCE(){
-    choixTransformation = 0;
-    nombrePoint = nombrePointBase;
+    this.choixTransformation = 0;
+    this.nombrePoint = nombrePointBase;
+    this.centreTransformation.x=0;
+    this.centreTransformation.y=0;    
+  }
+  
+  public UNPOINT getCenter(){
+    return centreTransformation;
   }
 }
-// La liste chainée qui contient toutes les amorces.
-List lesAmorces= new LinkedList();
+
+LinkedList lesAmorces;

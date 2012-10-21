@@ -1,13 +1,13 @@
 void ExtractionTriangle(Delaunay myDelaunay){
 
-  TableauSommet = new int [nombrePoint][5500]; // end un tableau statique assez grand le mieux aurait été de le faire en dynamique avec une arraylist
+  TableauSommet = new int [lesAmorces.getLast().nombrePoint][5500]; // end un tableau statique assez grand le mieux aurait été de le faire en dynamique avec une arraylist
   // en abcisse on a le nombre de sommet ->i et en ordonné les liens avec ces même sommets
   
   /* Création et initialisation du Tableau tampon de sommets! */
   
   //print("\n\n");
   
-  for(int sommet=0; sommet<nombrePoint; sommet++){ //Pour chaque sommet...
+  for(int sommet=0; sommet<lesAmorces.getLast().nombrePoint; sommet++){ //Pour chaque sommet...
   
     // Mise en tableau tampon
     TableauTampon = myDelaunay.getLinked(sommet); // ...on parcours tous les sommets liés et on les met dans un tableau tampon
@@ -122,7 +122,7 @@ void ExtractionTriangle(Delaunay myDelaunay){
  /* print("\n\n nombre de sommets = "+i);
   print("\n TableauSommet.length = "+TableauSommet.length);
   */
-  for(int sommet=0; sommet<nombrePoint; sommet++){  
+  for(int sommet=0; sommet<lesAmorces.getLast().nombrePoint; sommet++){  
     
     for(int j=0; j<TableauSommet.length; j++){  
       
