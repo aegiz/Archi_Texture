@@ -111,7 +111,7 @@ public class secondApplet extends PApplet {
                 //On ajoute un nouvel élément à la liste chainée                 
                 lesAmorces.add(new AMORCE());
                 lesAmorces.getLast().nombrePoint = variableEnvironnement.nombrePointBase;
-                lesAmorces.getLast().choixTransformation = 1;            
+                lesAmorces.getLast().choixTransformation = 2;            
                 ETAT =201;                
             
             break;
@@ -154,9 +154,10 @@ public class secondApplet extends PApplet {
                 tabInit();
                 choixTransformation = 0;
                 nombrePoint = nombrePointBase;
-                ETAT = 2;         
+    
                 mouseHasBeenReleased = false;       
                 collisionEnded=false;
+                ETAT = 2;                     
 
               }  
               if ( positionSourisX >= positionRectX3 && positionSourisX <= positionRectX3+rectSizeX && positionSourisY >= positionRectY3 && positionSourisY <= positionRectY3+rectSizeY){

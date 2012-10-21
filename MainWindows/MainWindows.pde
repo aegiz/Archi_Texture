@@ -1,156 +1,6 @@
-// ******************************** VARIABLES ******************************** //
 
-//// PREMIERE fenetre
-import megamu.shapetween.*;
-
-PImage imageImportee;
-PImage imageContour;
-
-int nombreTriangles;
-double imageGet;
-int [][] TableauSommet; // initialisé à 150 sommets
-int [][] TableauTriangles; // initialisé à 1042triangles
-int [] TableauTampon;
-int [] tableauDesSommets1;
-int [] tableauDesSommets2;
-int [] TableauTamponTrie;
-int [][] TableauIndices;
-float [][][] TableauCoodonneesTrianglesActuelles;
-float [][][] TableauCoodonneesExtraites;
-boolean tableConverted = false;
-
-int x;
-int y;
-int i=0; // variable globale servant à definir le nombre de sommets progressivement
-
-// variables pour l'animation d'explosion
-Tween ani;
-BezierShaper mon_bezier;
-
-
-
-
-
-
-// DEUXIEME fenetre
-
-
-PFrame f;
-secondApplet s;
-PFont font;
-
-int positionEllX, positionEllY;
-int positionEllX2, positionEllY2;
-
-int rectSizeX;
-int rectSizeY;
-int positionRectX,positionRectX1,positionRectX2, positionRectX3, positionRectY, positionRectY3;
-
-int positionSourisX, positionSourisY;
-
-
-boolean buttonOver;
-boolean aDejaChargImage=false;
-int choixTransformation; // 0 = pas encore assigné 1 = delaunay, 2 = polaires
-
-int ETAT =1;
-
-// ******************************** VARIABLES POUR L'EXTRACTION DES CONTOURS ******************************* //
-//declaration des classes
-class UNPOINT{
-  int x;
-  int y;
-  boolean arrete = false;
-}
-
-//declaration des variables
-int mousePress = 1;
-
-float tableauDePoint[][] = new float[nombrePoint][3];
-int seuil = 20;
-
-
-//Pour la figure à main levée
-UNPOINT pointChemin = new UNPOINT();
-
-int typeSelection = 0;
-int tempX, tempY;
-
-// pour le tracé à main levé
-ArrayList listeDePoint = new ArrayList();
-boolean imageLoaded = false;
-
-UNPOINT un = new UNPOINT();
-UNPOINT temp = new UNPOINT();
-UNPOINT position = new UNPOINT();
-float xCen =0, yCen = 0;
-
-
-// ******************************** PARAMETRES POUR LA DELAUNAY ******************************** //
- 
- 
- float [][] pointsATracer = new float [nombrePoint][2];
-float [] [] points = new float [350][350];
-float [] [] tableauSommetCoordonnees = new float [2][350]; // On considère que le nombre de sommets max est 350
-
-Delaunay myDelaunay;
-
-
-// ******************************** PARAMETRES POUR L'EXPLOSION ******************************** //
-
-
-float indiceExplosion = 0;
-float vitesseExplosion = 2;
-float pesanteur = 0.02;
-float aleatoire = 0.2;
-
-int [][] donneesExplosion;
 
 // ******************************** PARAMETRES DE LA FENETRE PRINCIPALE ******************************** //
-
-
-// ******************************** Variable d'environnement pour l'amorce ***************************** //
-public class ENVAMORCE{
-  public boolean   mouseHasBeenPressed;
-  public   boolean   mouseHasBeenReleased;
-  public   boolean   collisionEnded;
-  public   boolean   delaunayNotSetted;
-  public   int   nombrePointBase;  
-  
-  public ENVAMORCE(){
-    mouseHasBeenPressed = false;
-    mouseHasBeenReleased = false;
-    collisionEnded = false;
-    delaunayNotSetted = true;  
-    nombrePointBase = 10; 
-  }
-  
-  public void nouvAmorce(){
-    mouseHasBeenPressed = false;
-    mouseHasBeenReleased = false;
-    collisionEnded = false;
-    delaunayNotSetted = true; 
-    nombrePointBase = 10;   
-  }
-}
-              
-ENVAMORCE variableEnvironnement = new ENVAMORCE();
-
-// ******************************** CLASSE QUI CONTIENT UNE AMORCE D'EXPLOSION***************************** //
-// Les amorce d'explosion contiennent tout ce qu'il faut pour démarer une explosion.
-public class AMORCE{
-  
-  float [][] tableauDePoint; 
-  int nombrePoint;
-  int choixTransformation;
-  UNPOINT centreTransformation;
-  public AMORCE(){
-    choixTransformation = 0;
-    nombrePoint = nombrePointBase;
-  }
-}
-// La liste chainée qui contient toutes les amorces.
-List lesAmorces= new LinkedList();
 
 void setup(){
   
@@ -231,12 +81,20 @@ void draw() { //draw() est appellée à chaque frame
     
     case 201:
       // méthode polaire    
+      
+      //On redessine l'image de fond à chaque fois
       image(imageImportee, 0,0,500,500);  
-      if (mouseHasBeenReleased){
-         //     dessineMoinUnCercle();  // Inutile
+      
+      //On lance l'expansion si la souris a été relaché
+      if (variableEnvironnement.mouseHasBeenReleased)
+      {
          collision();   
       }
-      if(collisionEnded) {
+      
+      if(variableEnvironnement.collisionEnded) 
+      {
+        lesAmorces.getLast().centreTransformation.x = xCen;
+        lesAmorces.getLast().centreTransformation.y = yCen;         
         ETAT = 4;
       }
         
@@ -244,31 +102,41 @@ void draw() { //draw() est appellée à chaque frame
    
     case 202:
     // méthode main levée
-      if (mousePressed && !mouseHasBeenReleased){
-        tableConverted = false;
-        print("trace");
+    
+      //Tant que la souris n'a pas été relaché, on continue à enregistrer des points.
+      if (mousePressed && !variableEnvironnement.mouseHasBeenReleased){
+        variableEnvironnement.tableConverted = false;
         traceMoiUnCercleMainsLevee();
         dessineMoiUneCercleTraceAMainLevee();
       }    
-      if(mouseHasBeenReleased){
-        if(!tableConverted){
-          nombrePoint = listeDePoint.size()/2;
+      
+      //Quand la souris est relaché, on lance la conversion.
+      if(variableEnvironnement.mouseHasBeenReleased){
+        if(!variableEnvironnement.tableConverted){
+          
+          //Comme on mets les Y à la suite des X dans la liste chainée, nombrePoint = size/2.
+          variableEnvironnement.nombrePoint = listeDePoint.size()/2;
+          
           //On fait la moyenne des coordonnées pour trouver le point central
-          int i;
-          for(i=0; i<listeDePoint.size()-1; i+=2)
+          for(int i=0; i<listeDePoint.size()-1; i+=2)
           {
             tempX =(Integer)listeDePoint.get(i);     
             xCen += tempX;
             tempY =(Integer)listeDePoint.get(i+1);             
             yCen += tempY;
           }
+          
           xCen /= listeDePoint.size();
           yCen /= listeDePoint.size();    
           xCen = floor(xCen)*2;
           yCen = floor(yCen)*2;
+          d
+          // On stocke le point central dans l'instance
+          lesAmorces.getLast().centreTransformation.x = xCen;
+          lesAmorces.getLast().centreTransformation.y = yCen;          
     
           // On copie colle toute les points dans le tableau de point en les mettant en coordonnées polaires
-          tableauDePoint = new float[nombrePoint][3];
+          tableauDePoint = new float[variableEnvironnement.nombrePoint][3];
           for(i=0; i<listeDePoint.size()-1; i+=2)
           {
             tempX = (Integer)listeDePoint.get(i);     
@@ -283,7 +151,7 @@ void draw() { //draw() est appellée à chaque frame
               tableauDePoint[i/2][2] = -1*acos((tempX - xCen) / tableauDePoint[i/2][0]) ;  
             }
           }   
-          tableConverted = true;
+          variableEnvironnement.tableConverted = true;
         }        
         image(imageImportee, 0,0,500,500);
         collision();
@@ -362,8 +230,8 @@ void mouseReleased(){ // on a relâché la souris
    if(ETAT==201 || ETAT==202){
      mouseHasBeenReleased = true;     
     tabInit();
-     xCen = mouseX;
-     yCen = mouseY;
+     lesAmorces.getLast().centreTransformation.x = mouseX;
+     lesAmorces.getLast().centreTransformation.y = mouseY;
    } 
   
 }
