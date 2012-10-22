@@ -91,7 +91,7 @@ void draw() { //draw() est appellée à chaque frame
       
       if(variableEnvironnement.collisionEnded) 
       {
-        lesAmorces.getLast().centreTransformation.x = xCen;
+        lesAmorces.getLast().getCenter().x = xCen;
         lesAmorces.getLast().centreTransformation.y = yCen;         
         ETAT = 4;
       }

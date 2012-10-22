@@ -154,6 +154,10 @@ public class AMORCE{
   public UNPOINT getCenter(){
     return centreTransformation;
   }
+  
+  public UNPOINT getCenter(){
+   return  centreTransformation;
+  }
 }
 
 LinkedList lesAmorces;
