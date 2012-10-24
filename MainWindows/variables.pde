@@ -131,7 +131,7 @@ public class ENVAMORCE{
   }
 }
               
-  ENVAMORCE variableEnvironnement;
+  ENVAMORCE variableEnvironnement = new ENVAMORCE();
 
 // ******************************** CLASSE QUI CONTIENT UNE AMORCE D'EXPLOSION***************************** //
 // Les amorce d'explosion contiennent tout ce qu'il faut pour démarer une explosion.
