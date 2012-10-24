@@ -91,8 +91,8 @@ void draw() { //draw() est appellée à chaque frame
       
       if(variableEnvironnement.collisionEnded) 
       {
-        lesAmorces.getLast().getCenter().x = xCen;
-        lesAmorces.getLast().centreTransformation.y = yCen;         
+        lesAmorces.getLast().centreTransformation.x = (int)xCen;
+        lesAmorces.getLast().centreTransformation.y = (int)yCen;         
         ETAT = 4;
       }
         
@@ -103,14 +103,14 @@ void draw() { //draw() est appellée à chaque frame
     
       //Tant que la souris n'a pas été relaché, on continue à enregistrer des points.
       if (mousePressed && !variableEnvironnement.mouseHasBeenReleased){
-        variableEnvironnement.tableConverted = false;
+        lesAmorces.getLast().tableConverted = false;
         traceMoiUnCercleMainsLevee();
         dessineMoiUneCercleTraceAMainLevee();
       }    
       
       //Quand la souris est relaché, on lance la conversion.
       if(variableEnvironnement.mouseHasBeenReleased){
-        if(!variableEnvironnement.tableConverted){
+        if(!lesAmorces.getLast().tableConverted){
           
           //Comme on mets les Y à la suite des X dans la liste chainée, nombrePoint = size/2.
           lesAmorces.getLast().nombrePoint = listeDePoint.size()/2;
@@ -130,36 +130,35 @@ void draw() { //draw() est appellée à chaque frame
           yCen = floor(yCen)*2;
           
           // On stocke le point central dans l'instance
-          lesAmorces.getLast().centreTransformation.x = xCen;
-          lesAmorces.getLast().centreTransformation.y = yCen;          
+          lesAmorces.getLast().centreTransformation.x = (int)xCen;
+          lesAmorces.getLast().centreTransformation.y = (int)yCen;          
     
           // On copie colle toute les points dans le tableau de point en les mettant en coordonnées polaires
-          tableauDePoint = new float[lesAmorces.getLast().nombrePoint][3];
+          lesAmorces.getLast().tableauDePoint = new float[lesAmorces.getLast().nombrePoint][3];
           for(i=0; i<listeDePoint.size()-1; i+=2)
           {
             tempX = (Integer)listeDePoint.get(i);     
             tempY = (Integer)listeDePoint.get(i+1);          
-            tableauDePoint[i/2][0] = sqrt(((tempX - xCen)*(tempX - xCen)) + ((tempY - yCen)*(tempY - yCen)));
-            tableauDePoint[i/2][1] = 0;
+            lesAmorces.getLast().tableauDePoint[i/2][0] = sqrt(((tempX - xCen)*(tempX - xCen)) + ((tempY - yCen)*(tempY - yCen)));
+            lesAmorces.getLast().tableauDePoint[i/2][1] = 0;
             if ((tempY - yCen) > 0){
-              tableauDePoint[i/2][2] = acos((tempX - xCen) / tableauDePoint[i/2][0]) ;  
+              lesAmorces.getLast().tableauDePoint[i/2][2] = acos((tempX - xCen) / lesAmorces.getLast().tableauDePoint[i/2][0]) ;  
             }
             else
             {
-              tableauDePoint[i/2][2] = -1*acos((tempX - xCen) / tableauDePoint[i/2][0]) ;  
+              lesAmorces.getLast().tableauDePoint[i/2][2] = -1*acos((tempX - xCen) / lesAmorces.getLast().tableauDePoint[i/2][0]) ;  
             }
           }   
-          variableEnvironnement.tableConverted = true;
+           lesAmorces.getLast().tableConverted = true;
         }        
         image(imageImportee, 0,0,500,500);
         collision();
       }
       
       
-      if(collisionEnded) {
+      if(lesAmorces.getLast().collisionEnded) {
         print("end \n");
         ETAT = 4;
-        print("\n nombre de point de la delaunay :" + nombrePoint);
       }
     break;        
 
@@ -169,7 +168,7 @@ void draw() { //draw() est appellée à chaque frame
     break;
     
     case 4: 
-    mouseHasBeenReleased = false;
+    variableEnvironnement.mouseHasBeenReleased = false;
     print("Case 4 \n");
     recupereCoordonnees();
     ETAT = 5;

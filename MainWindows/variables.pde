@@ -66,7 +66,7 @@ class UNPOINT{
 //declaration des variables
 int mousePress = 1;
 
-float tableauDePoint[][] = new float[nombrePoint][3];
+//float tableauDePoint[][] = new float[nombrePoint][3];
 int seuil = 20;
 
 
@@ -89,7 +89,7 @@ float xCen =0, yCen = 0;
 // ******************************** PARAMETRES POUR LA DELAUNAY ******************************** //
  
  
-float [][] pointsATracer = new float [nombrePoint][2];
+float [][] pointsATracer;
 float [] [] points = new float [350][350];
 float [] [] tableauSommetCoordonnees = new float [2][350]; // On considère que le nombre de sommets max est 350
 
@@ -118,8 +118,6 @@ public class ENVAMORCE{
   public ENVAMORCE(){
     this.mouseHasBeenPressed = false;
     this.mouseHasBeenReleased = false;
-    this.collisionEnded = false;
-    this.delaunayNotSetted = true;  
     this.nombrePointBase = 10; 
     this.amorceNB = 0;
   }
@@ -127,7 +125,6 @@ public class ENVAMORCE{
   public void nouvAmorce(){
     this.mouseHasBeenPressed = false;
     this.mouseHasBeenReleased = false;
-    this.collisionEnded = false;
     this.delaunayNotSetted = true; 
     this.nombrePointBase = 10; 
     this.amorceNB++;
@@ -143,10 +140,16 @@ public class AMORCE{
   float [][] tableauDePoint; 
   int nombrePoint;
   int choixTransformation;
+  public boolean delaunayNotSetted = true;    
   public UNPOINT centreTransformation; 
+  public boolean tableConverted;
+  public boolean collisionEnded;
   public AMORCE(){
+    this.delaunayNotSetted = true;     
+    this.collisionEnded = false;
+    this.tableConverted = false;
     this.choixTransformation = 0;
-    this.nombrePoint = nombrePointBase;
+    this.nombrePoint = variableEnvironnement.nombrePointBase;
     this.centreTransformation.x=0;
     this.centreTransformation.y=0;    
   }
@@ -154,10 +157,7 @@ public class AMORCE{
   public UNPOINT getCenter(){
     return centreTransformation;
   }
-  
-  public UNPOINT getCenter(){
-   return  centreTransformation;
-  }
+
 }
 
-LinkedList lesAmorces;
+LinkedList<AMORCE> lesAmorces = new LinkedList<AMORCE>();

@@ -100,7 +100,7 @@ public class secondApplet extends PApplet {
                  
                 //On ajoute un nouvel élément à la liste chainée                 
                 lesAmorces.add(new AMORCE());
-                lesAmorces.getLast().nombrePoint = lesAmorces.getLast().nombrePointBase;
+                lesAmorces.getLast().nombrePoint = variableEnvironnement.nombrePointBase;
                 lesAmorces.getLast().choixTransformation = 1;                   
                 ETAT =202;
                 
@@ -110,7 +110,7 @@ public class secondApplet extends PApplet {
                 
                 //On ajoute un nouvel élément à la liste chainée                 
                 lesAmorces.add(new AMORCE());
-                lesAmorces.getLast().nombrePoint = lesAmorces.getLast().nombrePointBase;
+                lesAmorces.getLast().nombrePoint = variableEnvironnement.nombrePointBase;
                 lesAmorces.getLast().choixTransformation = 2;            
                 ETAT =201;                
               }
@@ -150,13 +150,13 @@ public class secondApplet extends PApplet {
               }
               if ( positionSourisX >= positionRectX2 && positionSourisX <= positionRectX2+rectSizeX && positionSourisY >= positionRectY && positionSourisY <= positionRectY+rectSizeY) {
 
-                tableauDePoint = new float[nombrePoint][3];                
+                lesAmorces.getLast().tableauDePoint = new float[lesAmorces.getLast().nombrePoint][3];                
                 tabInit();
                 choixTransformation = 0;
-                nombrePoint = nombrePointBase;
+                lesAmorces.getLast().nombrePoint = variableEnvironnement.nombrePointBase;
     
-                mouseHasBeenReleased = false;       
-                collisionEnded=false;
+                variableEnvironnement.mouseHasBeenReleased = false;       
+                 lesAmorces.getLast().collisionEnded=false;
                 ETAT = 2;                     
               }  
               if ( positionSourisX >= positionRectX3 && positionSourisX <= positionRectX3+rectSizeX && positionSourisY >= positionRectY3 && positionSourisY <= positionRectY3+rectSizeY){

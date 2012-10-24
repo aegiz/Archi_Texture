@@ -29,5 +29,5 @@ void methodeDelaunay(){
       endY = myEdges[k][3];
       line( startX, startY, endX, endY );
     }
-    delaunayNotSetted = false;
+    lesAmorces.getLast().delaunayNotSetted = false;
 } 
