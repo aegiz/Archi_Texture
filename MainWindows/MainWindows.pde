@@ -19,6 +19,7 @@ void setup(){
   lesAmorces.add(new AMORCE());
   // On initialise tout l'environnement
   variableEnvironnement = new ENVAMORCE();  
+  
 }
 
 
@@ -36,7 +37,7 @@ void draw() { //draw() est appellée à chaque frame
     
     case 1:
     //On charge l'image
-
+            
        if(s.mousePressed && buttonOver == true){ // Nous faisons cette étape dans la fenêtre maître et non pas dans l'esclave car l'image chargée appartient au maitre
 
          // Nous avons cliqué et nous sommes dans la zone  
@@ -134,7 +135,11 @@ void draw() { //draw() est appellée à chaque frame
           lesAmorces.getLast().centreTransformation.y = (int)yCen;          
     
           // On copie colle toute les points dans le tableau de point en les mettant en coordonnées polaires
+          // Le bug est là
+          //lesAmorces.getLast().nombrePoint -> retourne la valeur de nombrePointBase : 10
+          
           lesAmorces.getLast().tableauDePoint = new float[lesAmorces.getLast().nombrePoint][3];
+          
           for(i=0; i<listeDePoint.size()-1; i+=2)
           {
             tempX = (Integer)listeDePoint.get(i);     

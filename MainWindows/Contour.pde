@@ -103,7 +103,8 @@ void imageContour(){
 
 void tabInit(){
   for(int i =0; i!= lesAmorces.getLast().nombrePoint; i++){
-     lesAmorces.getLast().tableauDePoint[i][0] = 10;
+    // bug ici avec un Null pointer exception
+     lesAmorces.getLast().tableauDePoint[i][0] = 10; 
      lesAmorces.getLast().tableauDePoint[i][1] = 0;
      lesAmorces.getLast().tableauDePoint[i][2] = 2*PI*(float(i+1 )/lesAmorces.getLast().nombrePoint) ;    
   }
