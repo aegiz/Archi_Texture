@@ -2,62 +2,57 @@
 
 //// PREMIERE fenetre
 
-PImage imageImportee;
-PImage imageContour;
+//PImage imageImportee;
+//PImage imageContour;
 
-int nombreTriangles;
-double imageGet;
-int [][] TableauSommet; // initialisé à 150 sommets
-int [][] TableauTriangles; // initialisé à 1042triangles
-int [] TableauTampon;
-int [] tableauDesSommets1;
-int [] tableauDesSommets2;
-int [] TableauTamponTrie;
-int [][] TableauIndices;
-float [][][] TableauCoodonneesTrianglesActuelles;
-float [][][] TableauCoodonneesExtraites;
-boolean tableConverted = false;
+//int nombreTriangles;
+//double imageGet;
+//int [][] TableauSommet; // initialisé à 150 sommets
+//int [][] TableauTriangles; // initialisé à 1042triangles
+//int [] TableauTampon;
+//int [] tableauDesSommets1;
+//int [] tableauDesSommets2;
+//int [] TableauTamponTrie;
+//int [][] TableauIndices;
+//float [][][] TableauCoodonneesTrianglesActuelles;
+//float [][][] TableauCoodonneesExtraites;
+//boolean tableConverted = false;
 
-int x;
-int y;
-int i=0; // variable globale servant à definir le nombre de sommets progressivement
+//int x;
+//int y;
+//int i=0; // variable globale servant à definir le nombre de sommets progressivement
 
+//// DEUXIEME fenetre
+//PFrame f;
+//secondApplet s;
+//PFont font;
 
+//int positionEllX, positionEllY;
+//int positionEllX2, positionEllY2;
 
+//int rectSizeX;
+//int rectSizeY;
+//int positionRectX, positionRectY;
 
-// DEUXIEME fenetre
-
-
-PFrame f;
-secondApplet s;
-PFont font;
-
-int positionEllX, positionEllY;
-int positionEllX2, positionEllY2;
-
-int rectSizeX;
-int rectSizeY;
-int positionRectX, positionRectY;
-
-int positionSourisX, positionSourisY;
+//int positionSourisX, positionSourisY;
 
 
 boolean buttonImageChoosen;
-boolean aDejaChargImage=false;
-int choixTransformation; // 0 = pas encore assigné 1 = delaunay, 2 = polaires
+//boolean aDejaChargImage=false;
+//int choixTransformation; // 0 = pas encore assigné 1 = delaunay, 2 = polaires
 
-int ETAT =1;
+//int ETAT =1;
 
 // ******************************** VARIABLES POUR L'EXCTRACTION DES CONTOURS ******************************* //
 //declaration des classes
-class unPoint {
-  int x;
-  int y;
-  boolean arrete = false;
-}
+//class unPoint {
+//  int x;
+//  int y;
+//  boolean arrete = false;
+//}
 
 //declaration des variables
-int mousePress = 1;
+//int mousePress = 1;
 
 boolean   mouseHasBeenPressed = false;
 boolean   mouseHasBeenReleased = false;
@@ -68,35 +63,34 @@ boolean   delaunayNotSetted = true;
 //List listePointCercle = new LinkedList();
 int nombrePoint =10;
 float tableauDePoint[][] = new float[nombrePoint][3];
-int seuil = 20;
+//int seuil = 20;
 
 
 //Pour la figure à main levée
-unPoint pointChemin = new unPoint();
+//unPoint pointChemin = new unPoint();
 
-int typeSelection = 0;
-int tempX, tempY;
+//int typeSelection = 0;
+//int tempX, tempY;
 
 // pour le tracé à main levé
-ArrayList listeDePoint = new ArrayList();
-boolean imageLoaded = false;
+//ArrayList listeDePoint = new ArrayList();
+//boolean imageLoaded = false;
 
-unPoint un = new unPoint();
-unPoint temp = new unPoint();
-unPoint position = new unPoint();
-float xCen =0, yCen = 0;
+//unPoint un = new unPoint();
+//unPoint temp = new unPoint();
+//unPoint position = new unPoint();
+//float xCen =0, yCen = 0;
 
 // ******************************** PARAMETRES POUR LA DELAUNAY ******************************** //
 
 
-float [][] pointsATracer = new float [nombrePoint][2];
-float [] [] points = new float [350][350];
-float [] [] tableauSommetCoordonnees = new float [2][350]; // On considère que le nombre de sommets max est 350
-
-Delaunay myDelaunay;
+//float [][] pointsATracer = new float [nombrePoint][2];
+//float [] [] points = new float [350][350];
+//float [] [] tableauSommetCoordonnees = new float [2][350]; // On considère que le nombre de sommets max est 350
+//
+//Delaunay myDelaunay;
 // ******************************** PARAMETRES DE LA FENETRE PRINCIPALE ******************************** //
 
-File selectedFile; // Le pointeur sur le fichier selectionné
 
 void setup() {
 
@@ -151,9 +145,6 @@ void draw() { //draw() est appellée à chaque frame
       imageLoaded = true;
       ETAT =2;
     }
-
-
-
     break;
 
   case 2:

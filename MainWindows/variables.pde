@@ -34,6 +34,7 @@ BezierShaper mon_bezier;
 
 // DEUXIEME fenetre
 
+File selectedFile; // Le pointeur sur le fichier selectionné
 
 PFrame f;
 secondApplet s;
