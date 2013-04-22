@@ -108,11 +108,10 @@ void setup() {
   textFont(font);
 
   PFrame f = new PFrame();
-  // Pour mettre eventuellement notre fenêtre en mode undecorated
-
-  // f.dispose();
-  //f.setUndecorated(true);
-  //f.setVisible(true);
+  lesAmorces= new LinkedList();
+  lesAmorces.add(new AMORCE());
+  // On initialise tout l'environnement
+  variableEnvironnement = new ENVAMORCE();  
 }
 
 

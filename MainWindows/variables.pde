@@ -98,7 +98,6 @@ Delaunay myDelaunay;
 
 // ******************************** PARAMETRES POUR L'EXPLOSION ******************************** //
 
-
 float indiceExplosion = 0;
 float vitesseExplosion = 2;
 float pesanteur = 0.02;
@@ -136,8 +135,7 @@ public class ENVAMORCE{
 // ******************************** CLASSE QUI CONTIENT UNE AMORCE D'EXPLOSION***************************** //
 // Les amorce d'explosion contiennent tout ce qu'il faut pour démarer une explosion.
 public class AMORCE{
-  
-  float [][] tableauDePoint; 
+  float [10][] tableauDePoint; 
   int nombrePoint;
   int choixTransformation;
   public boolean delaunayNotSetted = true;    
@@ -145,13 +143,14 @@ public class AMORCE{
   public boolean tableConverted;
   public boolean collisionEnded;
   public AMORCE(){
+    float [][] tableauDePoint = new float[10][2]; 
     this.delaunayNotSetted = true;     
     this.collisionEnded = false;
     this.tableConverted = false;
     this.choixTransformation = 0;
     this.nombrePoint = variableEnvironnement.nombrePointBase;
-    this.centreTransformation.x=0;
-    this.centreTransformation.y=0;    
+//    this.centreTransformation.x=0;
+//    this.centreTransformation.y=0;    
   }
   
   public UNPOINT getCenter(){
