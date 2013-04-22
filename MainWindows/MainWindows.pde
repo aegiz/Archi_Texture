@@ -159,99 +159,123 @@ void draw() { //draw() est appellée à chaque frame
   case 201:
     // méthode polaire    
     image(imageImportee, 0, 0, 500, 500);  
-    if (mouseHasBeenReleased) {
+    //On lance l'expansion si la souris a été relaché
+    if (variableEnvironnement.mouseHasBeenReleased) {
       collision();
     }
-    if (collisionEnded) {
+
+    if (variableEnvironnement.collisionEnded) {
+      lesAmorces.getLast().centreTransformation.x = (int)xCen;
+      lesAmorces.getLast().centreTransformation.y = (int)yCen;         
       ETAT = 4;
     }
-
     break;
 
   case 202:
     // méthode main levée
-    if (mousePressed && !mouseHasBeenReleased) {
-      tableConverted = false;
-      print("trace");
+
+    //Tant que la souris n'a pas été relaché, on continue à enregistrer des points.
+    if (mousePressed && !variableEnvironnement.mouseHasBeenReleased) {
+      lesAmorces.getLast().tableConverted = false;
       traceMoiUnCercleMainsLevee();
       dessineMoiUneCercleTraceAMainLevee();
     }    
-    if (mouseHasBeenReleased) {
-      if (!tableConverted) {
-        nombrePoint = listeDePoint.size()/2;
+
+    //Quand la souris est relaché, on lance la conversion.
+    if (variableEnvironnement.mouseHasBeenReleased) {
+      if (!lesAmorces.getLast().tableConverted) {
+
+        //Comme on mets les Y à la suite des X dans la liste chainée, nombrePoint = size/2.
+        lesAmorces.getLast().nombrePoint = listeDePoint.size()/2;
+
         //On fait la moyenne des coordonnées pour trouver le point central
-        int i;
-        for (i=0; i<listeDePoint.size()-1; i+=2)
+        for (int i=0; i<listeDePoint.size()-1; i+=2)
         {
           tempX =(Integer)listeDePoint.get(i);     
           xCen += tempX;
           tempY =(Integer)listeDePoint.get(i+1);             
           yCen += tempY;
         }
+
         xCen /= listeDePoint.size();
         yCen /= listeDePoint.size();    
         xCen = floor(xCen)*2;
         yCen = floor(yCen)*2;
 
+        // On stocke le point central dans l'instance
+        lesAmorces.getLast().centreTransformation.x = (int)xCen;
+        lesAmorces.getLast().centreTransformation.y = (int)yCen;          
+
         // On copie colle toute les points dans le tableau de point en les mettant en coordonnées polaires
-        tableauDePoint = new float[nombrePoint][3];
+        lesAmorces.getLast().tableauDePoint = new float[lesAmorces.getLast().nombrePoint][3];
         for (i=0; i<listeDePoint.size()-1; i+=2)
         {
           tempX = (Integer)listeDePoint.get(i);     
           tempY = (Integer)listeDePoint.get(i+1);          
-          tableauDePoint[i/2][0] = sqrt(((tempX - xCen)*(tempX - xCen)) + ((tempY - yCen)*(tempY - yCen)));
-          tableauDePoint[i/2][1] = 0;
+          lesAmorces.getLast().tableauDePoint[i/2][0] = sqrt(((tempX - xCen)*(tempX - xCen)) + ((tempY - yCen)*(tempY - yCen)));
+          lesAmorces.getLast().tableauDePoint[i/2][1] = 0;
           if ((tempY - yCen) > 0) {
-            tableauDePoint[i/2][2] = acos((tempX - xCen) / tableauDePoint[i/2][0]) ;
+            lesAmorces.getLast().tableauDePoint[i/2][2] = acos((tempX - xCen) / lesAmorces.getLast().tableauDePoint[i/2][0]) ;
           }
           else
           {
-            tableauDePoint[i/2][2] = -1*acos((tempX - xCen) / tableauDePoint[i/2][0]) ;
+            lesAmorces.getLast().tableauDePoint[i/2][2] = -1*acos((tempX - xCen) / lesAmorces.getLast().tableauDePoint[i/2][0]) ;
           }
         }   
-        tableConverted = true;
+        lesAmorces.getLast().tableConverted = true;
       }        
       image(imageImportee, 0, 0, 500, 500);
       collision();
     }
 
 
-    if (collisionEnded) {
+    if (lesAmorces.getLast().collisionEnded) {
       print("end \n");
       ETAT = 4;
-      print("\n nombre de point de la delaunay :" + nombrePoint);
     }
     break;        
 
   case 3:
-    //On ajoute des points aléatoirements
+    //On demande si l'utilisateur veut ajouter d'autre contour
+    dessineTriangles();
     break;
 
-  case 4:
+  case 4: 
+    variableEnvironnement.mouseHasBeenReleased = false;
+    print("Case 4 \n");
     recupereCoordonnees();
     ETAT = 5;
     break;
 
   case 5:
+    print("Case 5 \n");
     methodeDelaunay();
     ETAT = 6;
     break;
 
   case 6:
+    print("Case 6 \n");
     //Exctraction des triangles
     ExtractionTriangle(myDelaunay);
-    ETAT = 7;   
+    ETAT = 3;   
     break;   
 
   case 7:
-    //Choix explosion
+    // On dessine les triangles avec la texture d'arrière plan
+    dessineTriangles();
+    preparationExplosion();
+    ETAT = 702;
 
-    ETAT = 701;
     break;   
 
-  case 702:
-    dessineTriangles();
+  case 702:  
     //On explose tout ça de manière dynamique
+    dessineTriangles();
+    indiceExplosion++;
+    eclatementTriangles();
+    if (indiceExplosion>100) {
+      ETAT = 8;
+    }
     break;
 
   case 701:
@@ -274,10 +298,10 @@ void mousePressed()
 void mouseReleased() { // on a relâché la souris
 
   if (ETAT==201 || ETAT==202) {
-    mouseHasBeenReleased = true;     
+    variableEnvironnement.mouseHasBeenReleased = true;     
     tabInit();
-    xCen = mouseX;
-    yCen = mouseY;
+    lesAmorces.getLast().centreTransformation.x = mouseX;
+    lesAmorces.getLast().centreTransformation.y = mouseY;
   }
 }
 

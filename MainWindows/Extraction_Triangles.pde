@@ -1,13 +1,13 @@
 void ExtractionTriangle(Delaunay myDelaunay){
 
-  TableauSommet = new int [nombrePoint][5500]; // end un tableau statique assez grand le mieux aurait été de le faire en dynamique avec une arraylist
+  TableauSommet = new int [lesAmorces.getLast().nombrePoint][5500]; // end un tableau statique assez grand le mieux aurait été de le faire en dynamique avec une arraylist
   // en abcisse on a le nombre de sommet ->i et en ordonné les liens avec ces même sommets
   
   /* Création et initialisation du Tableau tampon de sommets! */
   
   //print("\n\n");
   
-  for(int sommet=0; sommet<nombrePoint; sommet++){ //Pour chaque sommet...
+  for(int sommet=0; sommet<lesAmorces.getLast().nombrePoint; sommet++){ //Pour chaque sommet...
   
     // Mise en tableau tampon
     TableauTampon = myDelaunay.getLinked(sommet); // ...on parcours tous les sommets liés et on les met dans un tableau tampon
@@ -39,22 +39,19 @@ void ExtractionTriangle(Delaunay myDelaunay){
           x=TableauTampon[j];
           TableauTampon[j]=TableauTampon[j+1];
           TableauTampon[j+1]=x;
-          changement++; //on signale qu'il ya eu un changement
+          changement++; //on signale qu'il y a eu un changement
         }
 
       }
     } // fin du while
     
     // Deuxième partie du netttoyage: Suppression des potentiels deux zéros consécutifs en début de tableau
-    // BUG à modifier
-    /*try {
-      
+    
+    if(TableauTampon.length >= 2){  
       if (TableauTampon[0]==0 && TableauTampon[1]==0){ // On passe l'une des deux valeurs à 1042 ...
         TableauTampon[0]=1042;
       }
-    
-    }finally{}
-    */
+    }
     
     if (sommet==0 && TableauTampon[0]==0){ // Si l'on est dans le sommet on ne peut pas être relié à 0
       TableauTampon[0]=1042;
@@ -125,7 +122,7 @@ void ExtractionTriangle(Delaunay myDelaunay){
  /* print("\n\n nombre de sommets = "+i);
   print("\n TableauSommet.length = "+TableauSommet.length);
   */
-  for(int sommet=0; sommet<nombrePoint; sommet++){  
+  for(int sommet=0; sommet<lesAmorces.getLast().nombrePoint; sommet++){  
     
     for(int j=0; j<TableauSommet.length; j++){  
       

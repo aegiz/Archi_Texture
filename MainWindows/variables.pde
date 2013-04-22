@@ -33,8 +33,7 @@ BezierShaper mon_bezier;
 
 
 // DEUXIEME fenetre
-
-File selectedFile; // Le pointeur sur le fichier selectionné
+File selectedFile;
 
 PFrame f;
 secondApplet s;
@@ -66,6 +65,8 @@ class UNPOINT{
 
 //declaration des variables
 int mousePress = 1;
+
+//float tableauDePoint[][] = new float[nombrePoint][3];
 int seuil = 20;
 
 
@@ -136,19 +137,13 @@ public class ENVAMORCE{
 // Les amorce d'explosion contiennent tout ce qu'il faut pour démarer une explosion.
 public class AMORCE{
   
-  //float [][] tableauDePoint; 
-  // Le bug est là: j'ai remis exactement les même dimensions pour notre tableau et cette fois ci il ne grogne pas donc il doit y avoir des contraintes sur l'instanciation du tableau qui n'ont pas été respectées
-  float [] [] tableauDePoint = new float [10][3];
-  
+  float [][] tableauDePoint; 
   int nombrePoint;
   int choixTransformation;
   public boolean delaunayNotSetted = true;    
-  //public UNPOINT centreTransformation;  le bug est corrigé
-  UNPOINT centreTransformation = new UNPOINT();
-  
+  public UNPOINT centreTransformation; 
   public boolean tableConverted;
   public boolean collisionEnded;
-  
   public AMORCE(){
     this.delaunayNotSetted = true;     
     this.collisionEnded = false;
