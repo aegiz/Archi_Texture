@@ -1,252 +1,299 @@
-import java.util.;
+// ******************************** VARIABLES ******************************** //
 
-void setup(){
-  
+//// PREMIERE fenetre
+
+PImage imageImportee;
+PImage imageContour;
+
+int nombreTriangles;
+double imageGet;
+int [][] TableauSommet; // initialisé à 150 sommets
+int [][] TableauTriangles; // initialisé à 1042triangles
+int [] TableauTampon;
+int [] tableauDesSommets1;
+int [] tableauDesSommets2;
+int [] TableauTamponTrie;
+int [][] TableauIndices;
+float [][][] TableauCoodonneesTrianglesActuelles;
+float [][][] TableauCoodonneesExtraites;
+boolean tableConverted = false;
+
+int x;
+int y;
+int i=0; // variable globale servant à definir le nombre de sommets progressivement
+
+
+
+
+// DEUXIEME fenetre
+
+
+PFrame f;
+secondApplet s;
+PFont font;
+
+int positionEllX, positionEllY;
+int positionEllX2, positionEllY2;
+
+int rectSizeX;
+int rectSizeY;
+int positionRectX, positionRectY;
+
+int positionSourisX, positionSourisY;
+
+
+boolean buttonImageChoosen;
+boolean aDejaChargImage=false;
+int choixTransformation; // 0 = pas encore assigné 1 = delaunay, 2 = polaires
+
+int ETAT =1;
+
+// ******************************** VARIABLES POUR L'EXCTRACTION DES CONTOURS ******************************* //
+//declaration des classes
+class unPoint {
+  int x;
+  int y;
+  boolean arrete = false;
+}
+
+//declaration des variables
+int mousePress = 1;
+
+boolean   mouseHasBeenPressed = false;
+boolean   mouseHasBeenReleased = false;
+boolean   collisionEnded = false;
+boolean   delaunayNotSetted = true;
+
+//On cree la liste de point
+//List listePointCercle = new LinkedList();
+int nombrePoint =10;
+float tableauDePoint[][] = new float[nombrePoint][3];
+int seuil = 20;
+
+
+//Pour la figure à main levée
+unPoint pointChemin = new unPoint();
+
+int typeSelection = 0;
+int tempX, tempY;
+
+// pour le tracé à main levé
+ArrayList listeDePoint = new ArrayList();
+boolean imageLoaded = false;
+
+unPoint un = new unPoint();
+unPoint temp = new unPoint();
+unPoint position = new unPoint();
+float xCen =0, yCen = 0;
+
+// ******************************** PARAMETRES POUR LA DELAUNAY ******************************** //
+
+
+float [][] pointsATracer = new float [nombrePoint][2];
+float [] [] points = new float [350][350];
+float [] [] tableauSommetCoordonnees = new float [2][350]; // On considère que le nombre de sommets max est 350
+
+Delaunay myDelaunay;
+// ******************************** PARAMETRES DE LA FENETRE PRINCIPALE ******************************** //
+
+File selectedFile; // Le pointeur sur le fichier selectionné
+
+void setup() {
+
+
   size(500, 500, P3D);
   background(255, 255, 255);
-  
+
   imageImportee =loadImage("Presentation1.png");
-  image(imageImportee, 0,0,500,500);
+  image(imageImportee, 0, 0, 500, 500);
   textureMode(IMAGE);
-  
+
   smooth();
-  
+
   font = loadFont("ArabicTypesetting-20.vlw"); // Cette police pixellise moins
   textFont(font);
-  
+
   PFrame f = new PFrame();
-  
-  // La liste chainée qui contient toutes les amorces.
-  lesAmorces= new LinkedList();
-  lesAmorces.add(new AMORCE());
-  // On initialise tout l'environnement
-  variableEnvironnement = new ENVAMORCE();  
-  
+  // Pour mettre eventuellement notre fenêtre en mode undecorated
+
+  // f.dispose();
+  //f.setUndecorated(true);
+  //f.setVisible(true);
 }
 
 
+
+// ******************************** "MAIN" ******************************** //
 
 
 void draw() { //draw() est appellée à chaque frame
+  //print("\n \n Etat : " + ETAT);
+  // print(" Nous somme dans l'état : " + ETAT+ "\n");
 
-   // print(" Nous somme dans l'état : " + ETAT+ "\n");
+  s.background(255, 255, 255); // On met un fond blanc dans l'autre fenêtre en permanence ce qui permet d'avoir un texte propre
+  s.fill(100);
+  s.redraw();// On raffraichit notre seconde fenetre à chaque frame
 
-   s.background(255, 255, 255); // On met un fond blanc dans l'autre fenêtre en permanence ce qui permet d'avoir un texte propre
-   s.fill(100);
-   s.redraw();// On raffraichit notre seconde fenetre à chaque frame
 
-  switch (ETAT){
-    
-    case 1:
-    //On charge l'image
-            
-       if(s.mousePressed && buttonOver == true){ // Nous faisons cette étape dans la fenêtre maître et non pas dans l'esclave car l'image chargée appartient au maitre
+  switch (ETAT) {
 
-         // Nous avons cliqué et nous sommes dans la zone  
-         // La variable aDejaChargImage est alors passé à vraie
-         aDejaChargImage = true;
-         String address = selectInput();
+  case 1:
+    if (selectedFile != null) {
+      imageImportee = loadImage(selectedFile.getAbsolutePath());
+      imageContour = loadImage(selectedFile.getAbsolutePath());
+      print(" x1 "+ imageImportee.width  +" y1 "+imageImportee.height   +" x2 "+ imageContour.width  +" y2 "+imageContour.height + "\n" );
+      image(imageImportee, 0, 0, 500, 500);
+      textureMode(IMAGE);
+      // Si on a upload une image alors on passe dans l'état 2
+      // Action a effectuer avant l'entrée dans l'étape 2
+      tabInit();
+      imageContour();   
+      imageLoaded = true;
+      ETAT =2;
+    }
 
-               if (address == null) {  
-                 println("No file selected.");
-               }
-               
-               else {
-                 imageImportee = loadImage(address);
-                 imageContour = loadImage(address);
-                 print(" x1 "+ imageImportee.width  +" y1 "+imageImportee.height   +" x2 "+ imageContour.width  +" y2 "+imageContour.height + "\n" );
-                 image(imageImportee, 0,0,500,500);
-                 textureMode(IMAGE);
-                  // Si on a upload une image alors on passe dans l'état 2
-                  
-                  
-                  // Action a effectuer avant l'entrée dans l'étape 2
-                 tabInit();
-                 imageContour();   
-                 imageLoaded = true;
-                 ETAT =2; 
-                 
-               }
 
-       }
 
     break;
-    
-    case 2:
+
+  case 2:
     // On selectionne la méthode de contour
     // On applique nos traitements sur l'image pour faire apparaitre les contours
-    
 
+    if (typeSelection == 2) ETAT = 202;
+    if (typeSelection == 1) ETAT = 201;
 
     break;
-    
-    case 201:
-      // méthode polaire    
-      
-      //On redessine l'image de fond à chaque fois
-      image(imageImportee, 0,0,500,500);  
-      
-      //On lance l'expansion si la souris a été relaché
-      if (variableEnvironnement.mouseHasBeenReleased)
-      {
-         collision();   
-      }
-      
-      if(variableEnvironnement.collisionEnded) 
-      {
-        lesAmorces.getLast().centreTransformation.x = (int)xCen;
-        lesAmorces.getLast().centreTransformation.y = (int)yCen;         
-        ETAT = 4;
-      }
-        
+
+  case 201:
+    // méthode polaire    
+    image(imageImportee, 0, 0, 500, 500);  
+    if (mouseHasBeenReleased) {
+      collision();
+    }
+    if (collisionEnded) {
+      ETAT = 4;
+    }
+
     break;
-   
-    case 202:
+
+  case 202:
     // méthode main levée
-    
-      //Tant que la souris n'a pas été relaché, on continue à enregistrer des points.
-      if (mousePressed && !variableEnvironnement.mouseHasBeenReleased){
-        lesAmorces.getLast().tableConverted = false;
-        traceMoiUnCercleMainsLevee();
-        dessineMoiUneCercleTraceAMainLevee();
-      }    
-      
-      //Quand la souris est relaché, on lance la conversion.
-      if(variableEnvironnement.mouseHasBeenReleased){
-        if(!lesAmorces.getLast().tableConverted){
-          
-          //Comme on mets les Y à la suite des X dans la liste chainée, nombrePoint = size/2.
-          lesAmorces.getLast().nombrePoint = listeDePoint.size()/2;
-          
-          //On fait la moyenne des coordonnées pour trouver le point central
-          for(int i=0; i<listeDePoint.size()-1; i+=2)
-          {
-            tempX =(Integer)listeDePoint.get(i);     
-            xCen += tempX;
-            tempY =(Integer)listeDePoint.get(i+1);             
-            yCen += tempY;
+    if (mousePressed && !mouseHasBeenReleased) {
+      tableConverted = false;
+      print("trace");
+      traceMoiUnCercleMainsLevee();
+      dessineMoiUneCercleTraceAMainLevee();
+    }    
+    if (mouseHasBeenReleased) {
+      if (!tableConverted) {
+        nombrePoint = listeDePoint.size()/2;
+        //On fait la moyenne des coordonnées pour trouver le point central
+        int i;
+        for (i=0; i<listeDePoint.size()-1; i+=2)
+        {
+          tempX =(Integer)listeDePoint.get(i);     
+          xCen += tempX;
+          tempY =(Integer)listeDePoint.get(i+1);             
+          yCen += tempY;
+        }
+        xCen /= listeDePoint.size();
+        yCen /= listeDePoint.size();    
+        xCen = floor(xCen)*2;
+        yCen = floor(yCen)*2;
+
+        // On copie colle toute les points dans le tableau de point en les mettant en coordonnées polaires
+        tableauDePoint = new float[nombrePoint][3];
+        for (i=0; i<listeDePoint.size()-1; i+=2)
+        {
+          tempX = (Integer)listeDePoint.get(i);     
+          tempY = (Integer)listeDePoint.get(i+1);          
+          tableauDePoint[i/2][0] = sqrt(((tempX - xCen)*(tempX - xCen)) + ((tempY - yCen)*(tempY - yCen)));
+          tableauDePoint[i/2][1] = 0;
+          if ((tempY - yCen) > 0) {
+            tableauDePoint[i/2][2] = acos((tempX - xCen) / tableauDePoint[i/2][0]) ;
           }
-          
-          xCen /= listeDePoint.size();
-          yCen /= listeDePoint.size();    
-          xCen = floor(xCen)*2;
-          yCen = floor(yCen)*2;
-          
-          // On stocke le point central dans l'instance
-          lesAmorces.getLast().centreTransformation.x = (int)xCen;
-          lesAmorces.getLast().centreTransformation.y = (int)yCen;          
-    
-          // On copie colle toute les points dans le tableau de point en les mettant en coordonnées polaires
-          // Le bug est là
-          //lesAmorces.getLast().nombrePoint -> retourne la valeur de nombrePointBase : 10
-          
-          lesAmorces.getLast().tableauDePoint = new float[lesAmorces.getLast().nombrePoint][3];
-          
-          for(i=0; i<listeDePoint.size()-1; i+=2)
+          else
           {
-            tempX = (Integer)listeDePoint.get(i);     
-            tempY = (Integer)listeDePoint.get(i+1);          
-            lesAmorces.getLast().tableauDePoint[i/2][0] = sqrt(((tempX - xCen)*(tempX - xCen)) + ((tempY - yCen)*(tempY - yCen)));
-            lesAmorces.getLast().tableauDePoint[i/2][1] = 0;
-            if ((tempY - yCen) > 0){
-              lesAmorces.getLast().tableauDePoint[i/2][2] = acos((tempX - xCen) / lesAmorces.getLast().tableauDePoint[i/2][0]) ;  
-            }
-            else
-            {
-              lesAmorces.getLast().tableauDePoint[i/2][2] = -1*acos((tempX - xCen) / lesAmorces.getLast().tableauDePoint[i/2][0]) ;  
-            }
-          }   
-           lesAmorces.getLast().tableConverted = true;
-        }        
-        image(imageImportee, 0,0,500,500);
-        collision();
-      }
-      
-      
-      if(lesAmorces.getLast().collisionEnded) {
-        print("end \n");
-        ETAT = 4;
-      }
+            tableauDePoint[i/2][2] = -1*acos((tempX - xCen) / tableauDePoint[i/2][0]) ;
+          }
+        }   
+        tableConverted = true;
+      }        
+      image(imageImportee, 0, 0, 500, 500);
+      collision();
+    }
+
+
+    if (collisionEnded) {
+      print("end \n");
+      ETAT = 4;
+      print("\n nombre de point de la delaunay :" + nombrePoint);
+    }
     break;        
 
-    case 3:
-    //On demande si l'utilisateur veut ajouter d'autre contour
-    dessineTriangles();
+  case 3:
+    //On ajoute des points aléatoirements
     break;
-    
-    case 4: 
-    variableEnvironnement.mouseHasBeenReleased = false;
-    print("Case 4 \n");
+
+  case 4:
     recupereCoordonnees();
     ETAT = 5;
     break;
-    
-    case 5:
-    print("Case 5 \n");
+
+  case 5:
     methodeDelaunay();
     ETAT = 6;
     break;
-    
-    case 6:
-    print("Case 6 \n");
+
+  case 6:
     //Exctraction des triangles
     ExtractionTriangle(myDelaunay);
-    ETAT = 3;   
+    ETAT = 7;   
     break;   
-    
-    case 7:
-    // On dessine les triangles avec la texture d'arrière plan
-    dessineTriangles();
-    preparationExplosion();
-    ETAT = 702;
 
+  case 7:
+    //Choix explosion
+
+    ETAT = 701;
     break;   
-    
-    case 702:  
-    //On explose tout ça de manière dynamique
+
+  case 702:
     dessineTriangles();
-    indiceExplosion++;
-    eclatementTriangles();
-    if(indiceExplosion>100){
-      ETAT = 8;
-    }
+    //On explose tout ça de manière dynamique
     break;
-    
-    case 701:
- 
+
+  case 701:
+
     break;
-    
-    case 8:
+
+  case 8:
     //On récupére le JPEG
     break;
-
   }
 }
 
+
+
 void mousePressed()
 {
-
 }
 
 
-void mouseReleased(){ // on a relâché la souris
+void mouseReleased() { // on a relâché la souris
 
-   if(ETAT==201 || ETAT==202){
-     variableEnvironnement.mouseHasBeenReleased = true;     
+  if (ETAT==201 || ETAT==202) {
+    mouseHasBeenReleased = true;     
     tabInit();
-     lesAmorces.getLast().centreTransformation.x = mouseX;
-     lesAmorces.getLast().centreTransformation.y = mouseY;
-   } 
-  
+    xCen = mouseX;
+    yCen = mouseY;
+  }
 }
 
-void mouseDragged(){ // la souris a été bougé 
-
- 
+void mouseDragged() { // la souris a été bougé
 }
 
 
-void keyPressed(){
-    
-  
+void keyPressed() {
 }
+
