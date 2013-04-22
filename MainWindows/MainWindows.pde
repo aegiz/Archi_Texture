@@ -1,3 +1,5 @@
+import java.util.;
+
 void setup(){
   
   size(500, 500, P3D);
@@ -43,7 +45,7 @@ void draw() { //draw() est appellée à chaque frame
          // Nous avons cliqué et nous sommes dans la zone  
          // La variable aDejaChargImage est alors passé à vraie
          aDejaChargImage = true;
-         String address = selectInput(); 
+         String address = selectInput();
 
                if (address == null) {  
                  println("No file selected.");
